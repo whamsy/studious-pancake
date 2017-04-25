@@ -2,6 +2,10 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 
+var AWS = require('aws-sdk');
+var config = {"endpoint":"http://localhost:8000"};
+var client = new AWS.DynamoDB(config);
+
 // parse incoming requests
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
