@@ -7,6 +7,7 @@
     "start": "node ./app"
   },
   "dependencies": {
+    "amazon-cognito-identity-js": "^1.16.0",
     "aws-sdk": "^2.45.0",
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
@@ -16,5 +17,9 @@
     "morgan": "~1.8.1",
     "pug": "^2.0.0-beta.12",
     "serve-favicon": "~2.4.2"
+  },
+  "devDependencies": {
+    "json-loader": "^0.5.4",
+    "webpack": "^2.4.1"
   }
 }

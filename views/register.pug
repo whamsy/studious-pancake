@@ -9,13 +9,21 @@ block content
                 form(method='POST' action='/register')
                     div.form-group
                         label(for='name') Name:
-                        input#name.form-control(type='text', placeholder='first and last' name='name')
+                        input#name.form-control(type='text', placeholder='just your first name' name='name')
                     div.form-group
                         label(for='email') Email:
                         input#email.form-control(type='email', placeholder='name@email.com' name='email')
                     div.form-group
-                        label(for='favoriteBook') Favorite Book:
-                        input#favoriteBook.form-control(type='text', placeholder='title of book' name='favoriteBook')
+                        label(for='username') Username:
+                        input#username.form-control(type='text', placeholder='your Room8Karma username' name='username')
+                    div.form-group
+                        label Gender:
+                        br
+                        label(for='female') #[input#female(type='radio', name='gender', value='Male')] Female
+                        br
+                        label(for='male') #[input#male(type='radio', name='gender', value='Female')] Male
+                        br
+                        label(for='other') #[input#other(type='radio', name='gender', value='Other')] Other
                     div.form-group
                         label(for='pw') Password:
                         input#pw.form-control(type='password' name='password')

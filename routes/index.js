@@ -11,6 +11,8 @@
 var express = require('express');
 var router = express.Router();
 
+var addUser = require('./userauth.js');
+
 // GET /
 router.get('/', function(req, res, next) {
     return res.render('index', { title: 'Home' });
@@ -26,7 +28,24 @@ router.get('/register', function(req, res, next) {
 });
 
 router.post('/register', function(req, res, next) {
-    return res.send('User Created!');
+
+    var name = req.body.name;
+    var email = req.body.email;
+    var gender = req.body.gender;
+    var password = req.body.password;
+    var username = req.body.username;
+
+
+    console.log("New User signup reuqset from ",name);
+    //
+    addUser.newUser(email,name,gender,username,password, function(data) {
+
+        // res.send(data);
+        console.log(data);
+    });
+
+    // console.log(req.body.name);
+    return res.send('User data: ');
 });
 
 // GET /contact

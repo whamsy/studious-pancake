@@ -6,6 +6,10 @@ var AWS = require('aws-sdk');
 var config = {"endpoint":"http://localhost:8000"};
 var client = new AWS.DynamoDB(config);
 
+var AmazonCognitoIdentity = require('amazon-cognito-identity-js');
+var CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
+
+
 // parse incoming requests
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -41,4 +45,6 @@ app.use(function(err, req, res, next) {
 // listen on port 3000
 app.listen(3000, function () {
     console.log('Express app listening on port 3000');
+    // console.log(client);
+    console.log(CognitoUserPool);
 });
