@@ -1,5 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+
 var app = express();
 
 var AWS = require('aws-sdk');
@@ -9,6 +11,14 @@ var client = new AWS.DynamoDB(config);
 var AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 var CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
 
+app.use(session({
+    secret: 'Room8Karma rocks',
+    resave: true,
+    saveUninitialized: false
+    // store: new MongoStore({
+    //     mongooseConnection: db
+    // })
+}));
 
 // parse incoming requests
 app.use(bodyParser.json());

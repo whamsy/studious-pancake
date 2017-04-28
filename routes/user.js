@@ -47,6 +47,111 @@ module.exports.newUser = function (dataEmail, dataName, dataGender,username,pass
     });
 }
 
+module.exports.authUser = function(username, password, callback)
+{
+    global.navigator = () => null;
+
+    var AWSCognito = require('amazon-cognito-identity-js');
+
+    if (!username || !password)
+    {
+        callback(new Error('Invalid parameters.'));
+        return false;
+    }
+
+    var poolData = {
+        UserPoolId : 'us-west-2_Zv3F0BFug', // Your user pool id here
+        ClientId : '1s3ls78inc1gu69tde8n634kj' // Your client id here
+    };
+
+    var userPool = new AWSCognito.CognitoUserPool(poolData);
+
+    var authData = {
+        Username: username,
+        Password: password
+    };
+
+    var authDetails = new AWSCognito.AuthenticationDetails(authData);
+
+    var userData = {
+        Username: username,
+        Pool: userPool
+    };
+
+    var cognitoUser = new AWSCognito.CognitoUser(userData);
+
+    // let cognitoUser = this.userPool.getCurrentUser();
+
+    cognitoUser.authenticateUser(authDetails, {
+        onSuccess: function(result)
+        {
+            callback(null, {success: true, data: result.getAccessToken().getJwtToken()});
+            // console.log(result);
+            console.log('access token is ' + result.getAccessToken().getJwtToken());
+        },
+        onFailure: function(err)
+        {
+            console.log('authUser error: ',err);
+            return callback(err);
+            // alert(err);
+        }
+
+
+    });
+
+
+}
+
+
+
+// authUser('palku','P@lak123');
+
+// var getattr = function (username, password) {
+//
+//     global.navigator = () => null;
+//
+//     var AWSCognito = require('amazon-cognito-identity-js');
+//
+//     if (!username || !password)
+//     {
+//         callback(new Error('Invalid parameters.'));
+//         return false;
+//     }
+//
+//     var poolData = {
+//         UserPoolId : 'us-west-2_Zv3F0BFug', // Your user pool id here
+//         ClientId : '1s3ls78inc1gu69tde8n634kj' // Your client id here
+//     };
+//
+//     var userPool = new AWSCognito.CognitoUserPool(poolData);
+//
+//     // var authData = {
+//     //     Username: username,
+//     //     Password: password
+//     // };
+//
+//     // var authDetails = new AWSCognito.AuthenticationDetails(authData);
+//
+//     var userData = {
+//         Username: username,
+//         Pool: userPool
+//     };
+//
+//     var cognitoUser = new AWSCognito.CognitoUser(userData);
+//
+//     cognitoUser.getUserAttributes(function(err, result) {
+//         // if (err) {
+//         //     console.log(err);
+//         //     return;
+//         // }
+//         for (i = 0; i < result.length; i++) {
+//             console.log('\nattribute ' + result[i].getName() + ' has value ' + result[i].getValue());
+//         }
+//     });
+// }
+//
+// getattr('palku','P@lak123');
+
 // var AWSCognito = require('amazon-cognito-identity-js');
 //
 // var poolData = {
