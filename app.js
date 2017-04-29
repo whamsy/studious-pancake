@@ -57,4 +57,5 @@ app.listen(3000, function () {
     console.log('Express app listening on port 3000');
     // console.log(client);
     console.log(CognitoUserPool);
+    // console.log(session);
 });

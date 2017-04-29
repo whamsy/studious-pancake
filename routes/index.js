@@ -1,11 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
+var mid = require('../middleware');
 var user = require('./user.js');
 
 // GET /
 router.get('/', function(req, res, next) {
+    // console.log(req.session);
     return res.render('index', { title: 'Home' });
+
 });
 
 // GET /about
@@ -34,14 +37,18 @@ router.get('/profile', function(req, res, next) {
 
 router.post('/login', function(req, res, next) {
     if (req.body.username && req.body.password) {
-        user.authUser(req.body.username, req.body.password, function (error, user) {
-            if (error || !user) {
+        user.authUser(req.body.username, req.body.password, function (error, result) {
+            if (error || !result) {
                 var err = new Error('Wrong email or password.');
                 err.status = 401;
                 return next(err);
             }  else {
-                req.session.userId = user;
-                return res.send(req.session.userId);
+                user.getattr(req.body.username,req.body.password,function (error, result){
+                    req.session.userId =  result;
+                    return res.redirect('/profile');
+                    // return res.send(result)
+                });
+                // req.session.userId = user;
                 // return res.redirect('/profile');
             }
         });
