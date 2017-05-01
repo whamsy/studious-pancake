@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var cookieParser = require('cookie-parser');
 
 var app = express();
 
@@ -8,8 +9,7 @@ var AWS = require('aws-sdk');
 var config = {"endpoint":"http://localhost:8000"};
 var client = new AWS.DynamoDB(config);
 
-var AmazonCognitoIdentity = require('amazon-cognito-identity-js');
-var CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
+app.use(cookieParser());
 
 app.use(session({
     secret: 'Room8Karma rocks',
@@ -19,6 +19,11 @@ app.use(session({
     //     mongooseConnection: db
     // })
 }));
+
+app.use(function (req, res, next) {
+    res.locals.currentUser = req.session.loggedin;
+    next();
+});
 
 // parse incoming requests
 app.use(bodyParser.json());
@@ -44,6 +49,7 @@ app.use(function(req, res, next) {
 
 // error handler
 // define as the last app.use callback
+
 app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
@@ -56,6 +62,6 @@ app.use(function(err, req, res, next) {
 app.listen(3000, function () {
     console.log('Express app listening on port 3000');
     // console.log(client);
-    console.log(CognitoUserPool);
+    // console.log(CognitoUserPool);
     // console.log(session);
 });
