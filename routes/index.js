@@ -53,14 +53,29 @@ router.get('/conf', function(req, res, next) {
 
 router.post('/conf', function(req, res, next) {
 
+    userNEW.conf(req.session.username,req.body.confcode,function (error,result) {
 
-    req.session.confirmed = true;
-    req.session.loggedin = true;
-    console.log("SESSION DATA AFTER CONFIRMATION");
-    console.log(req.session);
+        if (error || !result) {
+            var err = new Error('Wrong email or password.');
+            err.status = 401;
+            return next(err);
+        }  else {
 
-    return res.render('profile', { title: 'Profile', name: req.session.username, favorite: 'Goblet of Fire' });
-    // return res.redirect('/profile');
+            req.session.confirmed = true;
+            req.session.loggedin = true;
+            console.log("SESSION DATA AFTER CONFIRMATION");
+            console.log(req.session);
+
+            return res.redirect('/profile');
+
+            // return res.render('profile', { title: 'Profile', name: req.session.username, favorite: 'Goblet of Fire' });
+
+        }
+    })
+
+    // console.log(req.body.confcode);
+
+    // return res.redirect('/');
     // return res.send(req.session.username);
     // return res.render('conf', { title: 'Confirmation' });
 });

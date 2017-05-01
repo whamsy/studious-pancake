@@ -108,7 +108,9 @@ module.exports.Auth = function () {
         });
     }
 
-    this.conf = function (username,confnum) {
+    this.conf = function (username,confnum,callback) {
+
+        global.navigator = () => null;
 
         var userData = {
             Username : username,
@@ -120,16 +122,48 @@ module.exports.Auth = function () {
         cognitoUser.confirmRegistration(confnum, true, function(err, result) {
             if (err) {
                 console.log(err);
-                return;
+                return callback(err);
             }
+
             console.log('call result: ' + result);
+            return(callback(null,true));
         });
 
     }
 
+    this.getsession = function () {
 
+        var currUser = userPool.getCurrentUser();
 
+        if (currUser != null) {
+            currUser.getSession(function (err,session) {
 
+                if (err) {
+                    alert(err);
+                    return;
+                }
+                console.log('session validity: ' + session.isValid());
+
+                // cognitoUser.getUserAttributes(function(err, attributes) {
+                //     if (err) {
+                //         // Handle error
+                //     } else {
+                //         // Do something with attributes
+                //     }
+                // });
+
+                // AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                //     IdentityPoolId : '...', // your identity pool id here
+                //     Logins : {
+                //         // Change the key below according to the specific region your user pool is in.
+                //         'cognito-idp.<region>.amazonaws.com/<YOUR_USER_POOL_ID>' : session.getIdToken().getJwtToken()
+                //     }
+                // });
+
+            })
+        } else this.logoutUser();
+
+    }
 }
 
 module.exports.getattr = function (username, password, callback) {
@@ -205,34 +239,34 @@ module.exports.getattr = function (username, password, callback) {
 
 
 
-module.exports.conf = function (username,confnum) {
-    global.navigator = () => null;
-
-    var AWSCognito = require('amazon-cognito-identity-js');
-
-    var poolData = {
-        UserPoolId : 'us-west-2_Zv3F0BFug', // Your user pool id here
-        ClientId : '1s3ls78inc1gu69tde8n634kj' // Your client id here
-    };
-
-    var userPool = new AWSCognito.CognitoUserPool(poolData);
-
-    var userData = {
-        Username : username,
-        Pool : userPool
-    };
-
-    var cognitoUser = new AWSCognito.CognitoUser(userData);
-
-    cognitoUser.confirmRegistration(confnum, true, function(err, result) {
-        if (err) {
-            console.log(err);
-            return;
-        }
-        console.log('call result: ' + result);
-    });
-
-}
+// module.exports.conf = function (username,confnum) {
+//     global.navigator = () => null;
+//
+//     var AWSCognito = require('amazon-cognito-identity-js');
+//
+//     var poolData = {
+//         UserPoolId : 'us-west-2_Zv3F0BFug', // Your user pool id here
+//         ClientId : '1s3ls78inc1gu69tde8n634kj' // Your client id here
+//     };
+//
+//     var userPool = new AWSCognito.CognitoUserPool(poolData);
+//
+//     var userData = {
+//         Username : username,
+//         Pool : userPool
+//     };
+//
+//     var cognitoUser = new AWSCognito.CognitoUser(userData);
+//
+//     cognitoUser.confirmRegistration(confnum, true, function(err, result) {
+//         if (err) {
+//             console.log(err);
+//             return;
+//         }
+//         console.log('call result: ' + result);
+//     });
+//
+// }
 
 
 module.exports.currUser = function () {

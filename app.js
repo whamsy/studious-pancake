@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+// var RedisStore = require('connect-redis')(session);
 var cookieParser = require('cookie-parser');
 
 var app = express();
@@ -11,14 +12,20 @@ var client = new AWS.DynamoDB(config);
 
 app.use(cookieParser());
 
+// var DynamoDBStore = require('connect-dynamodb')({session: session});
+
 app.use(session({
     secret: 'Room8Karma rocks',
     resave: true,
     saveUninitialized: false
-    // store: new MongoStore({
-    //     mongooseConnection: db
+    // store: new RedisStore({host:'localhost', port:3000, prefix:'chs-sess'})
+    // store: new RedisStore({
+    //
     // })
 }));
+
+
+// app.use(session({ store: new RedisStore, secret: 'lolcat' }));
 
 app.use(function (req, res, next) {
     res.locals.currentUser = req.session.loggedin;
