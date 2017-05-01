@@ -1,3 +1,12 @@
-//
-   Created by whamsy on 5/1/17.
+extends layout
 
+block content
+    .main.container
+        .row
+            .col-md-6.col-md-offset-3
+                h2.display-4.m-b-2 Please Enter your 6-digit confirmation code
+                form(method='POST' action='/conf')
+                    div.form-group
+                        label(for='confcode') Confirmation Code
+                        input.form-control(type='text' id='confcode' placeholder='confcod' name='confcode')
+                    button.btn.btn-primary(type='submit') Confirm
