@@ -4,10 +4,35 @@ var router = express.Router();
 var mid = require('../middleware');
 var user = require('./user.js');
 
+var userNEW = new user.Auth();
+
+
+
+router.get('/profile', mid.requiresLogin, function(req, res, next) {
+    // User.findById(req.session.userId)
+    //     .exec(function (error, user) {
+    //         if (error) {
+    //             return next(error);
+    //         } else {
+    // if (req.session && req.session.username) {
+        return res.render('profile', { title: 'Profile', name: req.session.username, favorite: 'Goblet of Fire' });
+    // }
+    // }
+    // });
+});
+
 // GET /
 router.get('/', function(req, res, next) {
-    // console.log(req.session);
-    return res.render('index', { title: 'Home' });
+    if (req.session && req.session.username) {
+        console.log("SESSION DATA ON HOME PAGE ")
+        console.log(req.session);
+        return res.render('loggedinhome', { title: 'Logged In Home' });
+    } else {
+        console.log("NO SESSION DATA YET");
+        return res.render('index', { title: 'Home' });
+    }
+    // console.log(res.locals.currentUser);
+    // return res.render('index', { title: 'Home' });
 
 });
 
@@ -17,45 +42,65 @@ router.get('/about', function(req, res, next) {
 });
 
 router.get('/register', function(req, res, next) {
+    console.log(req.session);
     return res.render('register', { title: 'Register' });
 });
 
-router.get('/login', function(req, res, next) {
+router.get('/conf', function(req, res, next) {
+    console.log(req.session);
+    return res.render('conf', { title: 'Confirmation' });
+});
+
+router.post('/conf', function(req, res, next) {
+
+
+    req.session.confirmed = true;
+    req.session.loggedin = true;
+    console.log("SESSION DATA AFTER CONFIRMATION");
+    console.log(req.session);
+
+    return res.render('profile', { title: 'Profile', name: req.session.username, favorite: 'Goblet of Fire' });
+    // return res.redirect('/profile');
+    // return res.send(req.session.username);
+    // return res.render('conf', { title: 'Confirmation' });
+});
+
+router.get('/login', mid.loggedOut, function(req, res, next) {
     return res.render('login', { title: 'Login' });
 });
 
-router.get('/profile', function(req, res, next) {
-    // User.findById(req.session.userId)
-    //     .exec(function (error, user) {
-    //         if (error) {
-    //             return next(error);
-    //         } else {
-                return res.render('profile', { title: 'Profile', name: user.name, favorite: user.favoriteBook });
-            // }
-        // });
-});
+
 
 router.post('/login', function(req, res, next) {
     if (req.body.username && req.body.password) {
-        user.authUser(req.body.username, req.body.password, function (error, result) {
+        userNEW.authUser(req.body.username, req.body.password, function (error, result) {
             if (error || !result) {
                 var err = new Error('Wrong email or password.');
                 err.status = 401;
                 return next(err);
             }  else {
-                user.getattr(req.body.username,req.body.password,function (error, result){
-                    req.session.userId =  result;
-                    return res.redirect('/profile');
-                    // return res.send(result)
-                });
-                // req.session.userId = user;
-                // return res.redirect('/profile');
+
+                req.session.username = req.body.username;
+                req.session.confirmed = true;
+                req.session.loggedin = true;
+                req.session.registered = true;
+
+                console.log(result);
+                console.log("SESSION DATA AFTER LOGIN");
+                console.log(req.session);
+
+                return res.redirect('/profile');
+
+                // return res.render('profile', { title: 'Profile', name: req.session.username, favorite: 'Goblet of Fire' });
+
             }
         });
     } else {
+
         var err = new Error('Both Email and password are required.');
         err.status = 401;
         return next(err);
+
     }
 });
 
@@ -75,14 +120,22 @@ router.post('/register', function(req, res, next) {
         var password = req.body.password;
         var username = req.body.username;
 
-        console.log("New User signup reuqset from ",name);
+        console.log("New User signup request from ",name);
 
-        user.newUser(email,name,gender,username,password, function(data) {
+        userNEW.newUser(email,name,gender,username,password, function(data) {
             // res.send(data);
-            console.log(data);
+            // req.session.username = username;
+
+            console.log('DATA?'+data);
+            console.log(req.session);
         });
 
-        return res.send('Success: ');
+        req.session.username = req.body.username;
+        req.session.registered = true;
+        console.log("SESSION DATA AFTER REGISTRATION");
+        console.log(req.session);
+
+        return res.render('conf', { title: 'Confirmation' });
 
     } else {
         var err = new Error('All fields required.');
@@ -90,6 +143,19 @@ router.post('/register', function(req, res, next) {
         return next(err);
     }
 
+});
+
+router.get('/logout', function(req, res, next) {
+    if (req.session) {
+        // delete session object
+        req.session.destroy(function(err) {
+            if(err) {
+                return next(err);
+            } else {
+                return res.redirect('/');
+            }
+        });
+    }
 });
 
 // GET /contact
