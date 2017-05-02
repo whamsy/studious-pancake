@@ -155,3 +155,17 @@ a:hover {
     padding-top: 8rem;
   }
 }
+
+.flex-container {
+  display: -webkit-flex;
+  display: flex;
+  width: 1000px;
+  height: 250px;
+  background-color: lightgrey;
+}
+.flex-item {
+  background-color: cornflowerblue;
+  width: 650px;
+  height: 250px;
+  margin: 10px;
+}
