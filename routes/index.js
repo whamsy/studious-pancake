@@ -23,6 +23,7 @@ router.get('/profile', mid.requiresLogin, function(req, res, next) {
 
 // GET /
 router.get('/', function(req, res, next) {
+    // userNEW.getsession();
     if (req.session && req.session.username) {
         console.log("SESSION DATA ON HOME PAGE ")
         console.log(req.session);
@@ -100,9 +101,14 @@ router.post('/login', function(req, res, next) {
                 req.session.loggedin = true;
                 req.session.registered = true;
 
-                console.log(result);
+                // req.session.user = result.userdata;
+
+                // console.log("DATA",);
                 console.log("SESSION DATA AFTER LOGIN");
+                // userNEW.getsession();
                 console.log(req.session);
+                // console.log("\n\n\n GET SESSION OUTPUT:\n",userNEW.getsession());
+                // localStorage.setItem('userid',username);
 
                 return res.redirect('/profile');
 

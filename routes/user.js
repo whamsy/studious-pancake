@@ -94,6 +94,10 @@ module.exports.Auth = function () {
 
                 AWS.config.credentials.params.Logins[loginId] = result.getIdToken().getJwtToken();
 
+                // session.user = cognitoUser;
+
+                localStorage.setItem('userid',username);
+
                 callback(null, {success: true, data: result.getAccessToken().getJwtToken(), userdata: cognitoUser});
                 // console.log(result);
                 // console.log('access token is ' + result.getAccessToken().getJwtToken());
@@ -131,37 +135,72 @@ module.exports.Auth = function () {
 
     }
 
-    this.getsession = function () {
+    this.getsession = function (callback) {
 
-        var currUser = userPool.getCurrentUser();
+        let currUser = userPool.getCurrentUser();
+
 
         if (currUser != null) {
             currUser.getSession(function (err,session) {
 
                 if (err) {
-                    alert(err);
-                    return;
+                    console.log(err);
+                    return callback(err);
                 }
+
                 console.log('session validity: ' + session.isValid());
 
-                // cognitoUser.getUserAttributes(function(err, attributes) {
-                //     if (err) {
-                //         // Handle error
-                //     } else {
-                //         // Do something with attributes
-                //     }
-                // });
 
-                // AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-                //     IdentityPoolId : '...', // your identity pool id here
-                //     Logins : {
-                //         // Change the key below according to the specific region your user pool is in.
-                //         'cognito-idp.<region>.amazonaws.com/<YOUR_USER_POOL_ID>' : session.getIdToken().getJwtToken()
-                //     }
-                // });
+                currUser.getUserAttributes(function(err, attributes) {
 
+                    console.log('test2');
+
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        resolve(attributes);
+                    }
+                });
             })
-        } else this.logoutUser();
+
+
+        }
+
+        return currUser;
+
+        // if (currUser != null) {
+        //     console.log(currUser);
+        // } else{
+        //
+        // }
+
+        // if (currUser != null) {
+        //     currUser.getSession(function (err,session) {
+        //
+        //         if (err) {
+        //             alert(err);
+        //             return;
+        //         }
+        //         console.log('session validity: ' + session.isValid());
+        //
+        //         // cognitoUser.getUserAttributes(function(err, attributes) {
+        //         //     if (err) {
+        //         //         // Handle error
+        //         //     } else {
+        //         //         // Do something with attributes
+        //         //     }
+        //         // });
+        //
+        //         // AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+        //         //     IdentityPoolId : '...', // your identity pool id here
+        //         //     Logins : {
+        //         //         // Change the key below according to the specific region your user pool is in.
+        //         //         'cognito-idp.<region>.amazonaws.com/<YOUR_USER_POOL_ID>' : session.getIdToken().getJwtToken()
+        //         //     }
+        //         // });
+        //
+        //     })
+        // } else this.logoutUser();
 
     }
 }
