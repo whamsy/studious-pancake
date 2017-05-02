@@ -125,9 +125,16 @@ router.post('/login', function(req, res, next) {
     }
 });
 
-router.post('/register', function(req, res, next) {
+router.post('/register', mid.loggedOut, function(req, res, next) {
 
     if (req.body.email && req.body.name && req.body.gender && req.body.password && req.body.confirmPassword){
+
+        var userData = {
+            email: req.body.email,
+            name: req.body.name,
+            gender: req.body.gender,
+            password: req.body.password
+        };
 
         if (req.body.password !== req.body.confirmPassword) {
             var err = new Error('Passwords do not match.');
