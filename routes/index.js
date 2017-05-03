@@ -28,6 +28,11 @@ router.get('/room8search', function(req, res, next) {
     return res.render('room8search', { title: 'Roomie Search' });
 });
 
+router.get('/preferences', function(req, res, next) {
+    return res.render('preferences', { title: 'Preferences' });
+});
+
+
 router.get('/profile', mid.requiresLogin, function(req, res, next) {
     // User.findById(req.session.userId)
     //     .exec(function (error, user) {
@@ -72,6 +77,10 @@ router.get('/conf', function(req, res, next) {
     return res.render('conf', { title: 'Confirmation' });
 });
 
+router.post('/preferences', function(req, res, next) {
+     return res.redirect('/profile');
+});
+
 router.post('/conf', function(req, res, next) {
 
     userNEW.conf(req.session.username,req.body.confcode,function (error,result) {
@@ -87,7 +96,7 @@ router.post('/conf', function(req, res, next) {
             console.log("SESSION DATA AFTER CONFIRMATION");
             console.log(req.session);
 
-            return res.redirect('/profile');
+            return res.redirect('/preferences');
 
             // return res.render('profile', { title: 'Profile', name: req.session.username, favorite: 'Goblet of Fire' });
 

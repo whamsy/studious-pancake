@@ -1,0 +1,43 @@
+extends layout
+
+block content
+    h4 Hello #{name}!
+    p.
+        Before we get started, help us get an idea of what sort of roomie you can be! This will show your possible compatibility with other users.
+    br
+    p.
+        P.S Don't worry, there are no wrong answers!
+
+
+    form.form-inline(method='POST' action='/preferences')
+        .row
+            label.col-md-2.col-form-label(for='cleanliness') Preference
+            select#cleanliness.custom-select.col-md-6
+                option(selected='') Choose...
+                option(value='1') One
+                option(value='2') Two
+                option(value='3') Three
+        .row
+            label.col-md-2.col-form-label(for='inlineFormCustomSelect') Preference
+            select#inlineFormCustomSelect.custom-select.col-md-6
+                option(selected='') Choose...
+                option(value='1') One
+                option(value='2') Two
+                option(value='3') Three
+        .row
+            label.col-md-2.col-form-label(for='inlineFormCustomSelect1') Preference
+            select#inlineFormCustomSelect1.custom-select.col-md-6
+                option(selected='') Choose...
+                option(value='1') One
+                option(value='2') Two
+                option(value='3') Three
+        .row
+            label.col-md-2.col-form-label(for='inlineFormCustomSelect2') Preference
+            select#inlineFormCustomSelect2.custom-select.col-md-6
+                option(selected='') Choose...
+                option(value='1') One
+                option(value='2') Two
+                option(value='3') Three
+
+
+        button.btn.btn-primary(type='submit') Submit

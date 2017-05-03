@@ -1,23 +1,22 @@
 extends layout
 
 block content
-    .col-md-8
-        h1.display-4.m-b-2 About Us
-        p.
-            Room8Karma aims to make living with roommates a breezy and easy experience. Whether it's helping organize
-            exisitng roommate activities by automating task assignment or finding new roommates on the same wavelength as you,
-            we aim to simplify the process and increase your peace of mind.
+    h1.display-4.m-b-2 About Us
+    p.
+        Room8Karma aims to make living with roommates a breezy and easy experience. Whether it's helping organize
+        exisitng roommate activities by automating task assignment or finding new roommates on the same wavelength as you,
+        we aim to simplify the process and increase your peace of mind.
 
-        p.
-            Once you and your roommates sign up, you can create a group for your home where activities can be added. We take
-            care of the assignment without you having to be the bad guy and tell someone it's their turn to take out the trash.
-            (We have all been there!) To provide an added incentive, we will allow task verification and give a rating based on
-            task completion over a period of time.
+    p.
+        Once you and your roommates sign up, you can create a group for your home where activities can be added. We take
+        care of the assignment without you having to be the bad guy and tell someone it's their turn to take out the trash.
+        (We have all been there!) To provide an added incentive, we will allow task verification and give a rating based on
+        task completion over a period of time.
 
-        p.
-            Looking to move? We got your back! You can both search for roommates or rooms looking for someone to move in.
-            The ranking system will help you select people because as they say -- birds of a feather flock together!! So
-            you get to choose someone as neat and particular (or filthy.. er.. casual we mean) as yourself.
+    p.
+        Looking to move? We got your back! You can both search for roommates or rooms looking for someone to move in.
+        The ranking system will help you select people because as they say -- birds of a feather flock together!! So
+        you get to choose someone as neat and particular (or filthy.. er.. casual we mean) as yourself.
 
-        if !currentUser
-            a.btn.btn-info-outline.btn-lg.m-t-1(href='/register') Get Started for FREE
+    if !currentUser
+        a.btn.btn-info-outline.btn-lg.m-t-1(href='/register') Get Started for FREE

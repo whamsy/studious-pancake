@@ -15,10 +15,12 @@ head
     // content block
     if currentUser
       .main.container
-        block content
+        .col-md-8
+          block content
         include activitysidebar
     else
-      block content
+      .main.container
+        block content
 
     // footer
     p.foot.text-xs-center The Room8Karma Project
