@@ -6,7 +6,27 @@ var user = require('./user.js');
 
 var userNEW = new user.Auth();
 
+// GET /contact
+router.get('/contact', function(req, res, next) {
+    return res.render('contact', { title: 'Contact' });
+});
 
+
+// GET /contact
+router.get('/room', function(req, res, next) {
+    return res.render('userroom', { title: 'Your Room' });
+});
+
+
+// GET /contact
+router.get('/roomsearch', function(req, res, next) {
+    return res.render('roomsearch', { title: 'Room Search' });
+});
+
+// GET /contact
+router.get('/room8search', function(req, res, next) {
+    return res.render('room8search', { title: 'Roomie Search' });
+});
 
 router.get('/profile', mid.requiresLogin, function(req, res, next) {
     // User.findById(req.session.userId)
@@ -186,10 +206,7 @@ router.get('/logout', function(req, res, next) {
     }
 });
 
-// GET /contact
-router.get('/contact', function(req, res, next) {
-    return res.render('contact', { title: 'Contact' });
-});
+
 
 module.exports = router;
 
