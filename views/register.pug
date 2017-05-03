@@ -3,10 +3,10 @@ extends layout
 block content
     .main.container
         .row
-            .col-md-6.col-md-offset-3
+            .col-md-4.col-md-offset-3
                 h1.display-4.m-b-2 Sign Up
                 // register form
-                form(method='POST' action='/register')
+                form(method='POST' action='/confirmation')
                     div.form-group
                         label(for='name') Name:
                         input#name.form-control(type='text', placeholder='just your first name' name='name')
@@ -30,4 +30,33 @@ block content
                     div.form-group
                         label(for='pw2') Confirm Password:
                         input#pw2.form-control(type='password' name='confirmPassword')
-                    button.btn.btn-primary(type='submit') Sign up
+                    button.btn.btn-primary(type='submit', href='confirmation') Sign up
+            .col-md-3.col-md-offset-1
+                .container2
+                    link(rel='stylesheet', type='text/css', href='stylesheets/style2.css')
+                    p
+                        label(for='new-task') Add Item
+                        input#new-task(type='text')
+                        button Add
+                    h3 Todo
+                    ul#incomplete-tasks
+                        li
+                            input(type='checkbox')
+                            label Pay Bills
+                            input(type='text')
+                            button.edit Edit
+                            button.delete Delete
+                        li
+                            input(type='checkbox')
+                            label Go Shopping
+                            input(type='text')
+                            button.edit Edit
+                            button.delete Delete
+                    h3 Completed
+                    ul#completed-tasks
+                        li
+                            input(type='checkbox', checked='')
+                            label See the Doctor
+                            input(type='text')
+                            button.edit Edit
+                            button.delete Delete

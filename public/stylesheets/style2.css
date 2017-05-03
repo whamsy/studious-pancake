@@ -1,0 +1,376 @@
+
+.container2 {
+    display: block;
+    width:350px;
+    margin: 10px;
+    float: left;
+    top: 100px;
+}
+
+ul {
+    margin: 10px;
+    padding: 0px;
+}
+li * {
+    float: left;
+}
+li, h3 {
+    clear:both;
+    list-style:none;
+}
+input, button {
+    outline: none;
+}
+button {
+    background: none;
+    border: 0px;
+    color: #888;
+    font-size: 20px;
+    width: 60px;
+    margin: 1px 0 10px;
+    font-family: Lato, sans-serif;
+    cursor: pointer;
+}
+button:hover {
+    color: #333;
+}
+/* Heading */
+h3,
+label[for='new-task'] {
+    color: #818181;
+    font-weight: 500;
+    font-size: 20px;
+    border-bottom: 2px solid #333;
+    padding: 10px 0 10px;
+    margin: 10px 0 10px;
+    text-transform: uppercase;
+}
+input[type="text"] {
+    margin: 0;
+    font-size: 20px;
+    line-height: 10px;
+    height: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 6px;
+    font-family: Lato, sans-serif;
+    color: #888;
+}
+input[type="text"]:focus {
+    color: #333;
+}
+
+/* New Task */
+label[for='new-task'] {
+    display: block;
+    margin: 0 0 20px;
+}
+input#new-task {
+    float: left;
+    width: 250px;
+}
+p > button:hover {
+    color: #0FC57C;
+    bottom: 505px;
+}
+
+/* Task list */
+li {
+    overflow: hidden;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+li > input[type="checkbox"] {
+    margin: 0 0px;
+    position: relative;
+    top: 9px;
+}
+li > label {
+    font-size: 20px;
+    line-height: 30px;
+    width: 150px;
+    padding: 0 0 0 10px;
+}
+li >  input[type="text"] {
+    width: 150px;
+}
+li > .delete:hover {
+    color: #CF2323;
+}
+
+/* Completed */
+#completed-tasks label {
+    text-decoration: line-through;
+    color: #888;
+}
+
+/* Edit Task */
+ul li input[type=text] {
+    display:none;
+}
+
+ul li.editMode input[type=text] {
+    display:block;
+}
+
+ul li.editMode label {
+    display:none;
+}
+
+/*@charset "UTF-8";*/
+
+/*body {*/
+/*//    background: rgba(0, 0, 0, 0.75);*/
+    /*padding: 80px 0px 0px 0px;*/
+/*}*/
+
+/*body, input, button {*/
+    /*font-family: 'Roboto', sans-serif;*/
+/*}*/
+
+/*.noFill {*/
+    /*fill: none;*/
+/*}*/
+
+/*header {*/
+    /*width: 35%;*/
+    /*height: 80px;*/
+
+    /*position: fixed;*/
+/*;*/
+    /*padding: 15px;*/
+    /*top: 160px;*/
+    /*left: 200px;*/
+    /*z-index: 5;*/
+
+    /*background: rgba(6, 6, 6, 0.89);*/
+    /*box-shadow: 0px 2px 4px rgba(44, 62, 80, 0.15);*/
+    /*border-bottom-right-radius: 10px;*/
+    /*border-bottom-left-radius: 10px;*/
+/*}*/
+
+/*header input {*/
+    /*width: 100%;*/
+    /*height: 50px;*/
+    /*float: left;*/
+    /*color: rgba(0, 0, 0, 0.66);*/
+    /*font-size: 15px;*/
+    /*font-weight: 400;*/
+    /*text-indent: 18px;*/
+    /*padding: 0 60px 0 0;*/
+    /*background: rgba(255, 255, 255, 0.2);*/
+    /*border-radius: 5px 25px 25px 5px;*/
+    /*border: 0px;*/
+    /*box-shadow: none;*/
+    /*outline: none;*/
+
+    /*-webkit-appearance: none;*/
+    /*-moz-appearance: none;*/
+/*}*/
+
+/*header input::-webkit-input-placeholder {*/
+    /*color: rgba(6, 6, 6, 0.75);*/
+/*}*/
+
+/*header input:-moz-input-placeholder {*/
+    /*color: rgba(0, 0, 0, 0.75);*/
+/*}*/
+
+/*header input::-moz-input-placeholder {*/
+    /*color: rgba(6, 6, 6, 0.75);*/
+/*}*/
+
+/*header input:-ms-input-placeholder {*/
+    /*color: rgba(0, 0, 0, 0.75);*/
+/*}*/
+
+/*header button {*/
+    /*width: 50px;*/
+    /*height: 50px;*/
+
+    /*position:absolute;*/
+    /*top:15px;*/
+    /*right:15px;*/
+    /*z-index:2;*/
+
+    /*border-radius: 25px;*/
+    /*background: #000000;*/
+    /*border: 0px;*/
+    /*box-shadow: none;*/
+    /*outline: none;*/
+    /*cursor: pointer;*/
+
+    /*-webkit-appearance: none;*/
+    /*-moz-appearance: none;*/
+/*}*/
+
+/*header button svg {*/
+    /*width: 16px;*/
+    /*height: 16px;*/
+
+    /*position: absolute;*/
+    /*top: 50%;*/
+    /*left: 50%;*/
+
+    /*margin: -8px 0 0 -8px;*/
+/*}*/
+
+/*header button svg .fill {*/
+    /*fill: #25b99a;*/
+/*}*/
+
+/*.container {*/
+    /*width: 100%;*/
+    /*float: left;*/
+    /*padding: 5px;*/
+/*}*/
+
+/*ul.todo {*/
+    /*width: 64%;*/
+    /*float: left;*/
+/*}*/
+
+/*ul.todo li {*/
+    /*width: 100%;*/
+    /*min-height: 50px;*/
+    /*float: left;*/
+    /*font-size: 14px;*/
+    /*font-weight: 500;*/
+    /*color: #444;*/
+    /*line-height: 22px;*/
+
+    /*background: #000000;*/
+    /*border-radius: 5px;*/
+    /*position: relative;*/
+    /*box-shadow: 0px 1px 2px rgba(44, 62, 80, 0.10);*/
+    /*margin: 0 0 10px 0;*/
+    /*padding: 14px 100px 14px 14px;*/
+    /*word-break: break-all;*/
+/*}*/
+
+/*ul.todo li:last-of-type {*/
+   /*// margin: 5px;*/
+/*}*/
+
+/*ul.todo li .buttons {*/
+    /*width: 100px;*/
+    /*height: 50px;*/
+
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*right: 0;*/
+/*}*/
+
+/*ul.todo li .buttons button {*/
+    /*width: 50px;*/
+    /*height: 50px;*/
+    /*float: left;*/
+    /*background: none;*/
+    /*position: relative;*/
+    /*border: 0px;*/
+    /*box-shadow: none;*/
+    /*outline: none;*/
+    /*cursor: pointer;*/
+
+    /*-webkit-appearance: none;*/
+    /*-moz-appearance: none;*/
+/*}*/
+
+/*ul.todo li .buttons button:last-of-type:before {*/
+    /*content: '';*/
+    /*width: 1px;*/
+    /*height: 30px;*/
+    /*background: #000000;*/
+
+    /*position: absolute;*/
+    /*top: 10px;*/
+    /*left: 0;*/
+/*}*/
+
+/*ul.todo li .buttons button svg {*/
+    /*width: 22px;*/
+    /*height: 22px;*/
+
+    /*position: absolute;*/
+    /*top: 50%;*/
+    /*left: 50%;*/
+
+    /*margin: -11px 0 0 -11px;*/
+/*}*/
+
+/*ul.todo li .buttons button.complete svg {*/
+    /*border-radius: 11px;*/
+    /*border: 1.5px solid #000000;*/
+
+    /*transition: background 0.2s ease;*/
+/*}*/
+
+/*ul.todo#completed li .buttons button.complete svg {*/
+    /*background: #000000;*/
+    /*border: 0px;*/
+/*}*/
+
+/*ul.todo:not(#completed) li .buttons button.complete:hover svg {*/
+    /*background: rgba(0, 0, 0, 0.75);*/
+/*}*/
+
+/*ul.todo:not(#completed) li .buttons button.complete:hover svg .fill {*/
+    /*fill: #000000;*/
+/*}*/
+
+/*ul.todo#completed li .buttons button.complete svg .fill {*/
+    /*fill: #000000;*/
+/*}*/
+
+/*ul.todo li .buttons button svg .fill {*/
+    /*transition: fill 0.2s ease;*/
+/*}*/
+
+/*ul.todo li .buttons button.remove svg .fill {*/
+    /*fill: #a7a7aa;*/
+/*}*/
+
+/*ul.todo li .buttons button.remove:hover svg .fill {*/
+    /*fill: #e85656;*/
+/*}*/
+
+/*ul.todo li .buttons button.complete svg .fill {*/
+    /*fill: #25b99a;*/
+/*}*/
+
+/*ul.todo#completed {*/
+    /*position: relative;*/
+    /*padding: 60px 0 0 0;*/
+/*}*/
+
+/*ul.todo#completed:before {*/
+    /*content: '';*/
+    /*width: 150px;*/
+    /*height: 1px;*/
+    /*background: rgba(0, 0, 0, 0.72);*/
+
+    /*position: absolute;*/
+    /*top: 30px;*/
+    /*left: 50%;*/
+
+    /*margin: 0 0 0 -75px;*/
+/*}*/
+
+/*ul.todo#todo:empty:after {*/
+    /*content: 'You have nothing to-do!';*/
+    /*margin: 15px 0 0 0;*/
+/*}*/
+
+/*ul.todo#completed:empty:after {*/
+    /*content: 'You have yet to complete any tasks.';*/
+/*}*/
+
+/*ul.todo#todo:after,*/
+/*ul.todo#completed:after {*/
+    /*width: 100%;*/
+    /*display: block;*/
+    /*text-align: center;*/
+    /*font-size: 12px;*/
+    /*color: #000000;*/
+/*}*/

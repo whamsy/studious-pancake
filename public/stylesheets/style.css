@@ -4,7 +4,20 @@
 body {
   background: #1d2a33 url('../images/bg.jpg') no-repeat;
   background-size: cover;
+  max-width: 2000px;
+  margin: 0;
+  font-family: "Lato", sans-serif;
+  transition: background-color .5s;
 }
+
+
+
+
+.header {
+    width: 100%;
+
+}
+
 
 a:hover {
   color: rgba(49,176,213, .7);
@@ -16,6 +29,7 @@ a:hover {
   padding: 1rem 0;
   background: rgba(0,0,0, .25);
 }
+
 .lead {
   margin-bottom: 2.5rem;
 }
@@ -28,6 +42,10 @@ a:hover {
   padding: .5rem 0;
   color: rgba(255,255,255, .6);
 }
+a {color: black;margin: 15px; text-decoration: none; bottom: 50%}
+
+
+
 
 /* Modifier Styles */
 
@@ -76,7 +94,50 @@ a:hover {
 .btn {
   transition: .4s;
 }
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    background-color: rgb(22, 31, 38);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 40px;
 
+}
+.sidenav a {
+    padding: 8px 8px 8px 30px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+
+
+}
+.sidenav a:hover, .offcanvas a:focus{
+    color: #f1f1f1;
+}
+.sidenav .closebtn {
+    position: absolute;
+    top: -32px;
+    left: 190px;
+    font-size: 40px;
+    margin-left: 0px;
+    overflow: auto;
+
+}
+#main {
+    transition: margin-left .5s;
+    padding-top: 0rem;
+    color: #818181;
+
+
+}
+@media screen and (max-height: 600px) {
+    .sidenav {padding-right: 25px;}
+    .sidenav a {font-size: 30px;}
+}
 /* Icon Styles */
 
 .icn-logo {
@@ -153,5 +214,6 @@ a:hover {
   }
   .main {
     padding-top: 8rem;
+    padding-right: 0rem;
   }
 }

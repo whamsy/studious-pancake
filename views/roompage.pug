@@ -1,0 +1,142 @@
+doctype html
+html
+    title My Example
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    meta(http-equiv='x-ua-compatible', content='ie=edge')
+    title Room8Karma | #{title}
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css', integrity='sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd', crossorigin='anonymous')
+    link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/style1.css')
+    link(rel='stylesheet', type='text/css', href='stylesheets/style2.css')
+    script(type='text/javascript', src='stylesheets/main.js')
+
+    style.
+        body {
+            display: grid;
+            grid-template-areas:
+                    "header header header"
+                    "nav article ads"
+                    "footer footer footer";
+            grid-template-rows: 89px 1fr 60px;
+            grid-template-columns: 30% 39% 10%;
+            grid-gap: 10px;
+            height: 100vh;
+            margin: 0;
+        }
+        /* Stack the layout on small devices/viewports. */
+        @media all and (max-width: 575px) {
+            body {
+                grid-template-areas:
+                        "header"
+                        "article"
+                        "ads"
+                        "nav"
+                        "footer";
+                grid-template-rows: 80px 1fr 70px 1fr 70px;
+                grid-template-columns: 1fr;
+            }
+        }
+        #pageHeader {
+            grid-area: header;
+        }
+        #pageFooter {
+            grid-area: footer;
+        }
+        #mainArticle {
+            grid-area: article;
+        }
+        #mainNav {
+            grid-area: nav;
+        }
+        #siteAds {
+            grid-area: ads;
+        }
+        header, footer, article, nav, div {
+            padding: 0px;
+        }
+    body
+
+        header#pageHeader
+            nav.navbar.navbar-fixed-top.navbar-dark.bg-inverse
+                button.navbar-toggler.hidden-md-up.pull-xs-right(type='button', data-toggle='collapse', data-target='#navbar') &#x2630;
+                #navbar.navbar-nav.collapse.navbar-toggleable-sm
+                    .container
+                        a.navbar-brand(href='/')
+                            i.icn-logo.material-icons bookmark_border
+                            | Room8Karma
+                        .nav-items.clearfix
+                            a.nav-item.nav-link(href='register') Sign Up
+                            a.nav-item.nav-link(href='about') About
+                            a.nav-item.nav-link(href='contact') Contact
+                            a.nav-item.nav-link(href='profile') My Profile
+
+                        a.btn.btn-info.pull-md-right(href='login') Login
+                        a.btn.btn-info.pull-md-right(href='AddTask') Task
+
+        article#mainArticle Article
+
+        nav#mainNav
+
+            #mySidenav.sidenav
+
+
+                a.closebtn(href="javascript:void(0)", onclick="closeNav()") ×
+                |
+                a(href="AddTask") Room
+                |
+                a(href="test") Services
+                |
+                a(href="#") Clients
+                |
+                a(href="roompage") Add Task
+            #main
+
+                span(style="font-size:30px; cursor:pointer", onclick="openNav()") ☰ Menu
+            script.
+                function openNav() {
+                    document.getElementById("mySidenav").style.width = "250px";
+                    document.getElementById("main").style.marginLeft = "250px";
+
+                }
+                function closeNav() {
+                    document.getElementById("mySidenav").style.width = "0";
+                    document.getElementById("main").style.marginLeft = "0";
+
+                }
+
+        #siteAds
+            .col-md-6.col-md-offset-5
+                .container2
+                    link(rel='stylesheet', type='text/css', href='stylesheets/style2.css')
+                    p
+                        label(for='new-task') Add Item
+                        input#new-task(type='text')
+                        button Add
+
+                    h3 Todo
+
+                    ul#incomplete-tasks
+                        li
+                            input(type='checkbox')
+                            label Pay Bills
+                            input(type='text')
+                            button.edit Edit
+                            button.delete Delete
+                        li
+                            input(type='checkbox')
+                            label Go Shopping
+                            input(type='text')
+                            button.edit Edit
+                            button.delete Delete
+                    h3 Completed
+                    ul#completed-tasks
+                        li
+                            input(type='checkbox', checked='')
+                            label See the Doctor
+                            input(type='text')
+                            button.edit Edit
+                            button.delete Delete
+        script(type='text/javascript', src='stylesheets/main.js')
+        footer#pageFooter

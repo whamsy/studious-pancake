@@ -43,6 +43,10 @@
 // router.get('/contact', function(req, res, next) {
 //     return res.render('contact', { title: 'Contact' });
 // });
+// GET /AddTask
+// router.get('/AddTask', function(req, res, next) {
+//     return res.render('AddTask', { title: 'Add Task' });
+// });
 //
 // module.exports = router;
 //

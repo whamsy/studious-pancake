@@ -16,7 +16,21 @@ router.get('/about', function(req, res, next) {
 router.get('/register', function(req, res, next) {
     return res.render('register', { title: 'Register' });
 });
-
+router.get('/AddTask', function(req, res, next) {
+    return res.render('AddTask', { title: 'Add' });
+});
+router.get('/roompage', function(req, res, next) {
+    return res.render('roompage', {title: 'room'});
+});
+router.get('/test', function(req, res, next) {
+    return res.render('test', {title: 'test'});
+});
+router.get('/confirmation', function(req, res, next) {
+        return res.render('confirmation', { title: 'confirmation' });
+});
+router.get('/sidebar', function(req, res, next) {
+    return res.render('sidebar', { title: 'Login' });
+});
 router.get('/login', function(req, res, next) {
     return res.render('login', { title: 'Login' });
 });
