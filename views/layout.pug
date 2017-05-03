@@ -13,7 +13,12 @@ head
     include navbar
 
     // content block
-    block content
+    if currentUser
+      .main.container
+        block content
+        include loggedinacts
+    else
+      block content
 
     // footer
     p.foot.text-xs-center The Room8Karma Project

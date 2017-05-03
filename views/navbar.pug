@@ -1,39 +1,33 @@
 //
    Created by whamsy on 4/24/17.
 
-//nav.navbar.navbar-fixed-top.navbar-dark.bg-inverse
-//    button.navbar-toggler.hidden-md-up.pull-xs-right(type='button', data-toggle='collapse', data-target='#navbar') &#x2630;
-//    #navbar.navbar-nav.collapse.navbar-toggleable-sm
-//        .container
-//            a.navbar-brand(href='/')
-//                i.icn-logo.material-icons bookmark_border
-//                | Room8Karma
-//            .nav-items.clearfix
-//                if !currentUser
-//                    a.nav-item.nav-link(href='register') Sign Up
-//                a.nav-item.nav-link(href='about') About
-//                a.nav-item.nav-link(href='contact') Contact
-//                a.nav-item.nav-link(href='profile') My Profile
-//
-//            if currentUser
-//                div
-//                    //img.avatar.img-circle.hidden-xs-down(src='/images/avatar.png', alt='avatar')
-//                    a.btn.btn-light.pull-md-right(href='/logout') Log out
-//            else
-//                a.btn.btn-info.pull-md-right(href='login') Login
+nav.navbar.navbar-fixed-top.navbar-dark.bg-inverse
+    button.navbar-toggler.hidden-md-up.pull-xs-right(type='button', data-toggle='collapse', data-target='#navbar') &#x2630;
+    #navbar.navbar-nav.collapse.navbar-toggleable-sm
+        .container
+            a.navbar-brand(href='/')
+                i.icn-logo.material-icons bookmark_border
+                | Room8Karma
+            .nav-items.clearfix
+                if !currentUser
+                    a.nav-item.nav-link(href='register') Sign Up
+                    a.nav-item.nav-link(href='about') About
+                    a.nav-item.nav-link(href='contact') Contact
+                if currentUser
+                    a.nav-item.nav-link(href='about') About
+                    a.nav-item.nav-link(href='contact') Contact
+                    a.nav-item.nav-link(href='profile') My Profile
+                    a.nav-item.nav-link(href='room') My Room
+                    a.nav-item.nav-link(href='roomsearch')
+                        i.icn-logo.material-icons search
+                        | Rooms
+                    a.nav-item.nav-link(href='room8search')
+                        i.icn-logo.material-icons search
+                        | Roommates
 
-
-
-.w3-top
-    .w3-bar.w3-theme.w3-top.w3-left-align.w3-large
-        //a.w3-bar-item.w3-button.w3-right.w3-hide-large.w3-hover-white.w3-large.w3-theme-l1(href='#') Logout
-        a.w3-bar-item.w3-button.w3-right.w3-hide-small.w3-hover-white(href='#') Logout
-        //(href='javascript:void(0)', onclick='w3_open()') Blah
-            i.fa.fa-bars Blah
-        a.w3-bar-item.w3-button.w3-theme-l1(href='#') Logo
-        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='#') About
-        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='#') Values
-        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='#') News
-        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='#') Contact
-        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='#') Clients
-        a.w3-bar-item.w3-button.w3-hide-small.w3-hide-medium.w3-hover-white(href='#') Partners
+            if currentUser
+                div
+                    //img.avatar.img-circle.hidden-xs-down(src='/images/avatar.png', alt='avatar')
+                    a.btn.btn-light.pull-md-right(href='/logout') Log out
+            else
+                a.btn.btn-info.pull-md-right(href='login') Login
