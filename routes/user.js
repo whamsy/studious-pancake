@@ -7,6 +7,9 @@ module.exports.Auth = function () {
     var AWS = require('aws-sdk');
     AWS.config.region = 'us-west-2';
 
+    var config = {"endpoint":"http://localhost:8000"};
+    var dbclient = new AWS.DynamoDB(config);
+
     var session = require('express-session');
 
     var poolData = {
@@ -20,7 +23,7 @@ module.exports.Auth = function () {
 
     var userPool = new AWSCognito.CognitoUserPool(poolData);
 
-    this.newUser= function (dataEmail, dataName, dataGender,username,password) {
+    this.newUser= function (dataEmail, dataName, dataGender,username,password,callback) {
 
         var attributeList = [];
 
@@ -47,13 +50,16 @@ module.exports.Auth = function () {
         attributeList.push(attributePhoneNumber);
         attributeList.push(attributeNaam);
 
-        userPool.signUp(username, password, attributeList, null, function(err, result){
-            if (err) {
-                console.log(err);
-                return;
+        userPool.signUp(username, password, attributeList, null, function(error, result){
+            if (error) {
+                console.log(error);
+                return callback(error);
+            } else{
+                var newcognitoUser = result.user;
+                console.log('user name is ' + newcognitoUser.getUsername());
+                return callback(null,result);
             }
-            var newcognitoUser = result.user;
-            console.log('user name is ' + newcognitoUser.getUsername());
+
         });
 
     }
@@ -68,7 +74,7 @@ module.exports.Auth = function () {
             return false;
         }
 
-        AWS.config.update({accessKeyId: 'anything', secretAccessKey: 'anything'});
+        // AWS.config.update({accessKeyId: 'anything', secretAccessKey: 'anything'});
 
         var authData = {
             Username: username,
@@ -87,18 +93,18 @@ module.exports.Auth = function () {
         cognitoUser.authenticateUser(authDetails, {
             onSuccess: function(result)
             {
-                AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-                    IdentityPoolId: identityPoolId,
-                    Logins: {}
-                })
+                // AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                //     IdentityPoolId: identityPoolId,
+                //     Logins: {}
+                // })
+                //
+                // AWS.config.credentials.params.Logins[loginId] = result.getIdToken().getJwtToken();
+                //
+                // // session.user = cognitoUser;
+                //
+                // localStorage.setItem('userid',username);
 
-                AWS.config.credentials.params.Logins[loginId] = result.getIdToken().getJwtToken();
-
-                // session.user = cognitoUser;
-
-                localStorage.setItem('userid',username);
-
-                callback(null, {success: true, data: result.getAccessToken().getJwtToken(), userdata: cognitoUser});
+                callback(null, {success: true, data: result.getAccessToken().getJwtToken()});
                 // console.log(result);
                 // console.log('access token is ' + result.getAccessToken().getJwtToken());
             },

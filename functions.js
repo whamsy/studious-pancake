@@ -1,7 +1,3 @@
-/**
- * Created by jaildar on 02/05/17.
- */
-
 var AWS1 = require("aws-sdk");
 
 AWS1.config.update({
@@ -55,14 +51,13 @@ function adduser(UserID,Name,Preference,ProfilePictureLink) //Preference should 
             "UserID": UserID,
             "Name": Name,
             "Preferences":Preference,
-    "Profile_Picture":ProfilePictureLink,
-    "Rating":0,
-    "User_available":true,
-    "Tasks":[],
-    "Room_Interested":[]
-
-}
-};
+            "Profile_Picture":ProfilePictureLink,
+            "Rating":0,
+            "User_available":true,
+            "Tasks":[],
+            "Room_Interested":[]
+        }
+    };
 
     documentClient.put(params, function(err, data) {
         if (err) {

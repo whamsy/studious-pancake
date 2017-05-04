@@ -3,8 +3,10 @@ var router = express.Router();
 
 var mid = require('../middleware');
 var user = require('./user.js');
+var database = require('./dynamodb.js');
 
 var userNEW = new user.Auth();
+var dbops = new database.dbfunc();
 
 // GET /contact
 router.get('/contact', function(req, res, next) {
@@ -78,7 +80,25 @@ router.get('/conf', function(req, res, next) {
 });
 
 router.post('/preferences', function(req, res, next) {
-     return res.redirect('/profile');
+
+    preference_list = {
+        "cleanliness": req.body.cleanliness,
+        "smoking": req.body.smoking,
+        "drinking": req.body.drinking,
+        "party": req.body.party
+    }
+
+    dbops.UpdateUserTable(req.session.username,"Preferences",preference_list, function(error1,result1){
+
+        if (error1 || !result1) {
+            console.log('ERROR IN UPDATING PREFERENCES: \n',error1);
+        } else {
+            console.log('RESULT OF UPDATING PREFERENCES: \n',result1);
+        }
+
+    });
+    console.log("REDIRECTING TO PROFILE PAGE");
+    return res.redirect('/profile');
 });
 
 router.post('/conf', function(req, res, next) {
@@ -95,6 +115,8 @@ router.post('/conf', function(req, res, next) {
             req.session.loggedin = true;
             console.log("SESSION DATA AFTER CONFIRMATION");
             console.log(req.session);
+
+            console.log("REDIRECTING TO PREFERENCES PAGE");
 
             return res.redirect('/preferences');
 
@@ -139,6 +161,8 @@ router.post('/login', function(req, res, next) {
                 // console.log("\n\n\n GET SESSION OUTPUT:\n",userNEW.getsession());
                 // localStorage.setItem('userid',username);
 
+
+
                 return res.redirect('/profile');
 
                 // return res.render('profile', { title: 'Profile', name: req.session.username, favorite: 'Goblet of Fire' });
@@ -179,20 +203,47 @@ router.post('/register', mid.loggedOut, function(req, res, next) {
 
         console.log("New User signup request from ",name);
 
-        userNEW.newUser(email,name,gender,username,password, function(data) {
+        userNEW.newUser(email,name,gender,username,password, function (error, result) {
             // res.send(data);
             // req.session.username = username;
+            console.log("ADDING USER TO COGNITO");
+            if (error || !result) {
+                var err = new Error('Wrong email or password.');
+                err.status = 401;
+                return next(err);
+            }  else {
 
-            console.log('DATA?'+data);
-            console.log(req.session);
+                // console.log('DATA???????????????????????????\n', result);
+                // console.log(req.session);
+
+                req.session.username = req.body.username;
+                req.session.registered = true;
+
+                // console.log("SESSION DATA AFTER REGISTRATION");
+                // console.log(req.session);
+
+                // console.log(username, email, gender, name);
+
+                console.log("USER REGISTERED IN COGNITO SUCCESSFULLY");
+
+                dbops.addNewUser(username,email,gender,name,function (error1,result1) {
+
+                    console.log("ADDING USER TO DYNAMO");
+
+                    if (error1 || !result1) {
+                        console.log(error1);
+                    } else {
+                        console.log("USER ADDED IN DYNAMO SUCCESSFULLY");
+                        console.log(result1);
+                    }
+
+                });
+
+                return res.render('conf', { title: 'Confirmation' });
+            }
         });
 
-        req.session.username = req.body.username;
-        req.session.registered = true;
-        console.log("SESSION DATA AFTER REGISTRATION");
-        console.log(req.session);
 
-        return res.render('conf', { title: 'Confirmation' });
 
     } else {
         var err = new Error('All fields required.');
