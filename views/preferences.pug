@@ -11,33 +11,35 @@ block content
 
     form.form-inline(method='POST' action='/preferences')
         .row
-            label.col-md-2.col-form-label(for='cleanliness') Preference
-            select#cleanliness.custom-select.col-md-6
+            label.col-md-2.col-form-label(for='cleanliness') Cleanliness
+            select#cleanliness(name='cleanliness').custom-select.col-md-6
                 option(selected='') Choose...
-                option(value='1') One
-                option(value='2') Two
-                option(value='3') Three
+                option(value='Not in my Vocabulary') Not in my Vocabulary
+                option(value='Not top of my list') Not top of my list
+                option(value='Not too messy. not too fussy') Not too messy. not too fussy
+                option(value='Cleanliness is Godliness') Cleanliness is Godliness
         .row
-            label.col-md-2.col-form-label(for='inlineFormCustomSelect') Preference
-            select#inlineFormCustomSelect.custom-select.col-md-6
+            label.col-md-2.col-form-label(for='smoking') Smoking
+            select#smoking(name='smoking').custom-select.col-md-6
                 option(selected='') Choose...
-                option(value='1') One
-                option(value='2') Two
-                option(value='3') Three
+                option(value='My Room is my Ashtray') My Room is my Ashtray
+                option(value='Not in the House') Not in the House
+                option(value='Smoking kills') Smoking kills
+
         .row
-            label.col-md-2.col-form-label(for='inlineFormCustomSelect1') Preference
-            select#inlineFormCustomSelect1.custom-select.col-md-6
+            label.col-md-2.col-form-label(for='drinking') Drinking
+            select#drinking(name='drinking').custom-select.col-md-6
                 option(selected='') Choose...
-                option(value='1') One
-                option(value='2') Two
-                option(value='3') Three
+                option(value='Chug Chug Chug') Chug Chug Chug
+                option(value='Sometimes, no puking though') Sometimes, no puking though
+                option(value='Teetotaler') Teetotaler
         .row
-            label.col-md-2.col-form-label(for='inlineFormCustomSelect2') Preference
-            select#inlineFormCustomSelect2.custom-select.col-md-6
+            label.col-md-2.col-form-label(for='party') Party Animal?
+            select#party(name='party').custom-select.col-md-6
                 option(selected='') Choose...
-                option(value='1') One
-                option(value='2') Two
-                option(value='3') Three
+                option(value='Absolutely, my house always rocks') Absolutely, my house always rocks
+                option(value='Small groups, non-nuisance type') Small groups, non-nuisance type
+                option(value='Not really, more into Jazz') Not really, more into Jazz
 
 
         button.btn.btn-primary(type='submit') Submit

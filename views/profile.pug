@@ -1,9 +1,48 @@
 extends layout
 
+
 block content
-    .col-md-8
-        h1.display-4
-            img.avatar.img-circle.hidden-xs-down(src='/images/avatar.png', alt='avatar')
-            | Welcome #{name}
-        h2.favorite-book Favorite Book
-        | #{favorite}
+                    .row
+                        .col-md-4
+                            img.img-circle.img-responsive(src='http://cdn2.business2community.com/wp-content/uploads/2014/04/profile-picture-300x300.jpg' width="70" height="70")
+
+
+                        .col-md-8
+                            h4 Hi, #{name}!
+                                p
+                                    strong Age:
+                                    |  24
+                                p
+                                    strong About:
+                                    |  Web Designer / UI.
+                                p
+                                    strong Hobbies:
+                                    |  Read, out with friends, listen to music, draw and learn new things.
+
+                    .row
+                        br
+                        br
+                        h4 Reviews for #{name}:
+                        .col-md-4
+                            img.img-rounded(src='http://cdn2.business2community.com/wp-content/uploads/2014/04/profile-picture-300x300.jpg' width="50" height="50")
+                            .review-block-name
+                                a(href='#') nktailor
+                            .review-block-date
+                                | January 29, 2016
+                                br
+                                | 1 day ago
+                        .col-md-8
+                            .review-block-rate
+                                button.btn.btn-warning.btn-xs(type='button', aria-label='Left Align')
+                                    span.glyphicon.glyphicon-star(aria-hidden='true')
+                                button.btn.btn-warning.btn-xs(type='button', aria-label='Left Align')
+                                    span.glyphicon.glyphicon-star(aria-hidden='true')
+                                button.btn.btn-warning.btn-xs(type='button', aria-label='Left Align')
+                                    span.glyphicon.glyphicon-star(aria-hidden='true')
+                                button.btn.btn-default.btn-grey.btn-xs(type='button', aria-label='Left Align')
+                                    span.glyphicon.glyphicon-star(aria-hidden='true')
+                                button.btn.btn-default.btn-grey.btn-xs(type='button', aria-label='Left Align')
+                                    span.glyphicon.glyphicon-star(aria-hidden='true')
+                            .review-block-title this was nice in buy
+                            .review-block-description
+                                | this was nice in buy. this was nice in buy. this was nice in buy. this was nice in buy this was nice in buy this was nice in buy this was nice in buy this was nice in buy
