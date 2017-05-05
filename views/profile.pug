@@ -2,47 +2,50 @@ extends layout
 
 
 block content
-                    .row
-                        .col-md-4
-                            img.img-circle.img-responsive(src='http://cdn2.business2community.com/wp-content/uploads/2014/04/profile-picture-300x300.jpg' width="70" height="70")
+    .row
+        .col-md-4
+            img.img-circle.img-responsive(src='http://cdn2.business2community.com/wp-content/uploads/2014/04/profile-picture-300x300.jpg' width="70" height="70")
+            .review-block-name
+                | Rating : #{rating}
 
 
-                        .col-md-8
-                            h4 Hi, #{name}!
-                                p
-                                    strong Age:
-                                    |  24
-                                p
-                                    strong About:
-                                    |  Web Designer / UI.
-                                p
-                                    strong Hobbies:
-                                    |  Read, out with friends, listen to music, draw and learn new things.
+        .col-md-8
+            .row
+                .col-md-8
+                    h4 Hi, #{name}!
+                .col-md-4
+                    p
+                        strong Age:
+                        |  24
+            p
+                strong About:
+                |  Web Designer / UI.
+            p
+                strong Preferences:
+                br
+                |  Cleanliness : #{cleanliness}
+                br
+                |  Smoking : #{smoking}
+                br
+                |  Drinking : #{drinking}
+                br
+                |  Party : #{party}
 
-                    .row
-                        br
-                        br
-                        h4 Reviews for #{name}:
-                        .col-md-4
-                            img.img-rounded(src='http://cdn2.business2community.com/wp-content/uploads/2014/04/profile-picture-300x300.jpg' width="50" height="50")
-                            .review-block-name
-                                a(href='#') nktailor
-                            .review-block-date
-                                | January 29, 2016
-                                br
-                                | 1 day ago
-                        .col-md-8
-                            .review-block-rate
-                                button.btn.btn-warning.btn-xs(type='button', aria-label='Left Align')
-                                    span.glyphicon.glyphicon-star(aria-hidden='true')
-                                button.btn.btn-warning.btn-xs(type='button', aria-label='Left Align')
-                                    span.glyphicon.glyphicon-star(aria-hidden='true')
-                                button.btn.btn-warning.btn-xs(type='button', aria-label='Left Align')
-                                    span.glyphicon.glyphicon-star(aria-hidden='true')
-                                button.btn.btn-default.btn-grey.btn-xs(type='button', aria-label='Left Align')
-                                    span.glyphicon.glyphicon-star(aria-hidden='true')
-                                button.btn.btn-default.btn-grey.btn-xs(type='button', aria-label='Left Align')
-                                    span.glyphicon.glyphicon-star(aria-hidden='true')
-                            .review-block-title this was nice in buy
-                            .review-block-description
-                                | this was nice in buy. this was nice in buy. this was nice in buy. this was nice in buy this was nice in buy this was nice in buy this was nice in buy this was nice in buy
+    .row
+        br
+        br
+        h4 Reviews for #{name}:
+        .col-md-4
+            img.img-rounded(src='http://cdn2.business2community.com/wp-content/uploads/2014/04/profile-picture-300x300.jpg' width="50" height="50")
+            .review-block-name
+                a(href='#') nktailor
+            .review-block-date
+                | January 29, 2016
+                br
+                | 1 day ago
+        .col-md-8
+            .review-block-title this was nice in buy
+            .review-block-description
+                | this was nice in buy. this was nice in buy. this was nice in buy. this was nice in buy this was nice in buy this was nice in buy this was nice in buy this was nice in buy
+            .review-block-rate
+                | Sentiment
