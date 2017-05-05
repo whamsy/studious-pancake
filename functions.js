@@ -144,7 +144,7 @@ function getuserdetails(username,callback) {
 
 
 
-function addroom(RoomId,Name,UserID,Address,NoofRooms,PetFriendly,Neighbourhood,Utilities,Rent)
+function addroom(RoomId,Name,UserID,Address,NoofRoom,PetFriendly,Neighbourhood,Utilities,Rent)
 {
 
     var documentClient = new AWS1.DynamoDB.DocumentClient();
@@ -162,6 +162,7 @@ function addroom(RoomId,Name,UserID,Address,NoofRooms,PetFriendly,Neighbourhood,
             "Room_Available":true,
             "User_Interested":[],
             "Address":Address,
+            "Picture":[],
             "Room_Details":{
                 "Noofrooms":NoofRooms,
                 "PetFriendly":PetFriendly,
@@ -185,6 +186,51 @@ function addroom(RoomId,Name,UserID,Address,NoofRooms,PetFriendly,Neighbourhood,
 
 }
 
+
+
+function getroomdetails(roomID,callback) {
+
+    var docClient = new AWS1.DynamoDB.DocumentClient();
+    var table = "Room";
+
+
+    var params = {
+        TableName: table,
+        Key: {
+            "RoomID": roomID //RoomID for which details are required.
+        }
+    };
+
+
+    docClient.get(params,function (err, data) {
+
+
+        if (err) {
+
+            return callback(err);
+            // console.error("Unable to read item. Error JSON:", err); //if(err) impies there is no data, so it will return null
+            // value1=err; // no need for this
+            // return value1;
+            // console.log(err) //will show you the error or callback(err) will pass this to the callback
+
+        } else{
+            var value1={};
+            value1["Name"]=data.Item.Name;
+            value1["Users"]=data.Item.Users;
+            value1["RoomAvailable"]=data.Item.Room_Available;
+            value1["Address"]=data.Item.Address;
+           value1["Picture"]=data.Item.Picture;
+            value1["Extradetails"]=data.Item.Room_Details;
+
+            return(callback(null,value1));
+
+        }});
+
+
+
+
+
+}
 
 
 
