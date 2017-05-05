@@ -92,6 +92,38 @@ module.exports.dbfunc = function () {
 
 
     }
+
+    this.getuserdetails = function(username,callback) {
+
+        var params = {
+            TableName: "User",
+            Key: {
+                "username": username
+            }
+        };
+
+
+        docClient.get(params,function (err, data) {
+
+            if (err) {
+
+                return callback(err);
+
+            } else{
+
+                var value1={};
+                value1["Name"]=data.Item.name;
+                value1["Rating"]=data.Item.Rating;
+                value1["ProfilePic"]=data.Item.Profile_Picture;
+                value1["Room_Interested"]=data.Item.Room_Interested;
+                value1["Preferences"]=data.Item.Preferences;
+                value1["username"]=data.Item.username;
+
+                return(callback(null,value1));
+            }
+        });
+
+    }
 }
 
 

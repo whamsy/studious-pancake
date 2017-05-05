@@ -16,7 +16,27 @@ router.get('/contact', function(req, res, next) {
 
 // GET /contact
 router.get('/room', function(req, res, next) {
-    return res.render('userroom', { title: 'Your Room' });
+
+        dbops.getuserdetails(req.session.username,function (error,result) {
+
+            if (error || !result) {
+                var err = new Error('Sorry, could not get your data at the moment');
+                err.status = 401;
+                return next(err);
+            }  else {
+
+               if(result['currRoom'] != null){
+                   return res.render('userroom', { title: 'Your Room' });
+               } else{
+                   return res.render('userroom_new', { title: 'Your Room' });
+               }
+
+
+            }
+
+        })
+
+
 });
 
 
@@ -41,9 +61,22 @@ router.get('/profile', mid.requiresLogin, function(req, res, next) {
     //         if (error) {
     //             return next(error);
     //         } else {
-    // if (req.session && req.session.username) {
-        return res.render('profile', { title: 'Profile', name: req.session.username, favorite: 'Goblet of Fire' });
-    // }
+    if (req.session && req.session.username &&req.session.loggedin) {
+        dbops.getuserdetails(req.session.username,function (error,result) {
+
+            if (error || !result) {
+                var err = new Error('Sorry, could not get your data at the moment');
+                err.status = 401;
+                return next(err);
+            }  else {
+
+                console.log(result);
+                return res.render('profile', { title: 'Profile', name: result['Name'], rating: result['Rating'], cleanliness: result['Preferences']['cleanliness'], smoking: result['Preferences']['smoking'], drinking: result['Preferences']['drinking'], party: result['Preferences']['party'] });
+
+            }
+
+        })
+    }
     // }
     // });
 });
@@ -94,11 +127,12 @@ router.post('/preferences', function(req, res, next) {
             console.log('ERROR IN UPDATING PREFERENCES: \n',error1);
         } else {
             console.log('RESULT OF UPDATING PREFERENCES: \n',result1);
+            console.log("REDIRECTING TO PROFILE PAGE");
+            return res.redirect('/profile');
         }
 
     });
-    console.log("REDIRECTING TO PROFILE PAGE");
-    return res.redirect('/profile');
+
 });
 
 router.post('/conf', function(req, res, next) {

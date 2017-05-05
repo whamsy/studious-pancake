@@ -217,3 +217,43 @@ function addusertoroom(UserID,RoomID)
 
 
 }
+
+// function getuserdetails(username,callback) {
+//
+//     var docClient = new AWS1.DynamoDB.DocumentClient();
+//     var table = "USER";
+//
+//
+//     var params = {
+//         TableName: table,
+//         Key: {
+//             "UserID": username  //Username for which data is needed
+//         }
+//     };
+//
+//
+//     docClient.get(params,function (err, data) {
+//
+//
+//         if (err) {
+//
+//             return callback(err);
+//             // console.error("Unable to read item. Error JSON:", err); //if(err) impies there is no data, so it will return null
+//             // value1=err; // no need for this
+//             // return value1;
+//             // console.log(err) //will show you the error or callback(err) will pass this to the callback
+//
+//         } else{
+//             var value1={};
+//             value1["Name"]=data.Item.Name;
+//             value1["Rating"]=data.Item.Rating;
+//             value1["ProfilePic"]=data.Item.Profile_Picture;
+//             value1["Room_Interested"]=data.Item.Room_Interested;
+//             value1["Preferences"]=data.Item.Preferences;
+//             value1["User_ID"]=data.Item.UserID;
+//
+//             return(callback(null,value1));
+//
+//         }});
+//
+// }
