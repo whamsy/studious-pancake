@@ -5,9 +5,14 @@ nav.navbar.navbar-fixed-top.navbar-dark.bg-inverse
     button.navbar-toggler.hidden-md-up.pull-xs-right(type='button', data-toggle='collapse', data-target='#navbar') &#x2630;
     #navbar.navbar-nav.collapse.navbar-toggleable-sm
         .container
-            a.navbar-brand(href='/')
-                i.icn-logo.material-icons bookmark_border
-                | Room8Karma
+            if !currentUser
+                a.navbar-brand(href='/')
+                    i.icn-logo.material-icons bookmark_border
+                    | Room8Karma
+            else
+                a.navbar-brand(href='/profile')
+                    i.icn-logo.material-icons bookmark_border
+                    | Room8Karma
             .nav-items.clearfix
                 if !currentUser
                     a.nav-item.nav-link(href='register') Sign Up

@@ -180,6 +180,66 @@ module.exports.dbfunc = function () {
         });
 
     }
+
+    this.getroomdetails = function(roomID,callback) {
+
+
+        var table = "Room";
+
+
+        var params = {
+            TableName: table,
+            Key: {
+                "roomID": roomID //RoomID for which details are required.
+            }
+        };
+
+
+        docClient.get(params,function (err, data) {
+
+
+            if (err) {
+
+                return callback(err);
+                // console.error("Unable to read item. Error JSON:", err); //if(err) impies there is no data, so it will return null
+                // value1=err; // no need for this
+                // return value1;
+                // console.log(err) //will show you the error or callback(err) will pass this to the callback
+
+            } else{
+                var value2={};
+
+
+                value2["roomID"]= data.Item.roomID;
+                value2["roomname"]= data.Item.roomname;
+                value2["address"]= data.Item.address;
+                value2["Users"]= data.Item.Users;
+                value2["Tasks"]= data.Item.Tasks;
+                value2["Room_Available"]= data.Item.Room_Available;
+                value2["User_Interested"]= data.Item.User_Interested;
+                value2["numrooms"]= data.Item.Room_Details['numrooms'];
+                value2["pets"]=data.Item.Room_Details['pets'];
+                value2["airconditioner"]=data.Item.Room_Details['ac'];
+                value2["internet"]=data.Item.Room_Details['wifi'];
+                value2["washer"]=data.Item.Room_Details['washer'];
+                value2["dryer"]=data.Item.Room_Details['dryer'];
+                value2["parking"]=data.Item.Room_Details['parking'];
+                value2["gym"]=data.Item.Room_Details['gym'];
+                value2["pool"]=data.Item.Room_Details['pool'];
+                value2["rent"]=data.Item.Room_Details['rent'];
+                value2["info"]=data.Item.Room_Details['info'];
+
+                return(callback(null,value2));
+
+            }
+        });
+
+
+
+
+
+    }
+
 }
 
 

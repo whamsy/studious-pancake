@@ -26,9 +26,22 @@ router.get('/room', function(req, res, next) {
             }  else {
 
                if(result['currRoom'] != null){
-                   return res.render('userroom', { title: 'Your Room' });
+
+                    dbops.getroomdetails(result['currRoom'],function (error1,result1) {
+
+                        if (error1 || !result1) {
+                            var err = new Error('Sorry, could not get your data at the moment');
+                            err.status = 401;
+                            return next(err);
+                        }  else {
+
+                            return res.render('userroom', { title: 'Your Room', username: req.session.username, roomname:result1["roomname"] ,address:result1["address"] ,users:result1["Users"], room_available:result1["Room_Available"] ,info:result1["info"] , numrooms:result1["numrooms"] ,rent:result1["rent"] , ac:result1["airconditioner"] , wifi:result1["internet"] , washer:result1["washer"] , dryer:result1["dryer"] ,parking:result1["parking"] , gym:result1["gym"] ,pool:result1["pool"] , pets:result1["pets"] });
+
+                        }
+
+                    })
                } else{
-                   return res.render('userroom_new', { title: 'Your Room' });
+                   return res.render('userroom_new', { title: 'New Room Registration' });
                }
 
 
