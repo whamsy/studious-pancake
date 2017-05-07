@@ -1,5 +1,85 @@
 extends layout
 
 block content
-    .col-md-8
         h4.m-b-2 Looks like you don't have a room yet! Lets get started!
+        // register form
+        form(method='POST' action='/newroom')
+            div.form-group
+                label(for='roomname') Your Room Name:
+                input#roomname.form-control(type='text', placeholder='just your Room name' name='roomname')
+            div.form-group
+                label Looking for Room mates:
+                br
+                label(for='Yes') #[input#female(type='radio', name='room_available', value='yes')] Yes
+                br
+                label(for='No') #[input#male(type='radio', name='room_available', value='no')] No
+            div.form-group
+                label(for='address') Address:
+                input#address.form-control(type='text', placeholder='Timesquare' name='address')
+            div.form-group
+                label(for='numrooms') No. of Rooms:
+                input#numrooms.form-control(type='text', placeholder='1,2,3' name='numrooms')
+            .form-group
+                label Amenities Available
+                br
+                .checkbox
+                    label(for="airconditioner")
+                        input#airconditioner(type="checkbox", name="airconditioner", value="yes")
+                        //input#airconditionerhidden(type="hidden", name="airconditioner", value="no")
+                        |       Air conditioner
+                |
+                .checkbox
+                    label(for="internet")
+                        input#internet(type="checkbox", name="internet", value="yes")
+                        //input#internethidden(type="hidden", name="internet", value="no")
+                        |       Internet connectivity
+                |
+                .checkbox
+                    label(for="washer")
+                        input#washer(type="checkbox", name="washer", value="yes")
+                        //input#washerhidden(type="hidden", name="washer", value="no")
+                        |       Washer
+                .checkbox
+                    label(for="dryer")
+                        input#dryer(type="checkbox", name="dryer", value="yes")
+                        //input#dryerhidden(type="hidden", name="dryer", value="no")
+                        |       Dryer
+                |
+                .checkbox
+                    label(for="parking")
+                        input#parking(type="checkbox", name="parking", value="yes")
+                        //input#parkinghidden(type="hidden", name="parking", value="no")
+                        |       Parking
+                |
+                .checkbox
+                    label(for="gym")
+                        input#gym(type="checkbox", name="gym", value="yes")
+                        //input#gymhidden(type="hidden", name="gym", value="no")
+                        |       Fitness centre
+                |
+                .checkbox
+                    label(for="pool")
+                        input#pool(type="checkbox", name="pool", value="yes")
+                        //input#poolhidden(type="hidden", name="pool", value="no")
+                        |       Swimming pool
+
+            div.form-group
+                label Shared Room:
+                br
+                label(for='Yes') #[input#female(type='radio', name='shared_room', value='yes')] Yes
+                br
+                label(for='No') #[input#male(type='radio', name='shared_room', value='No')] No
+                br
+            div.form-group
+                label Pet Friendly:
+                br
+                label(for='Yes') #[input#female(type='radio', name='pet_friendly', value='yes')] Yes
+                br
+                label(for='No') #[input#male(type='radio', name='pet_friendly', value='No')] No
+            div.form-group
+                label(for='rent') Rent:
+                input#rent.form-control(type='Integer' name='rent')
+            div.form-group
+                label(for='details') Anything Else:
+                input#details.form-control(type='text', placeholder='details about your home' name='details')
+            button.btn.btn-primary(type='submit') Sign up
