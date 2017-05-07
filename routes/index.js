@@ -212,6 +212,119 @@ router.post('/login', function(req, res, next) {
     }
 });
 
+router.post('/newroom', function (req,res,next) {
+
+    if(req.body.roomname && req.body.address && req.body.rent && req.body.room_available && req.body.numrooms && req.body.shared_room && req.body.pet_friendly){
+
+        var creator = req.session.username;
+
+        console.log("New Room creation request from ",creator);
+
+        var room_availablity,ac,internet,washer,dryer,parking,gym,pool,shared_room,pet_friendly;
+
+        if(req.body.room_available == 'yes'){
+            room_availablity = true;
+        } else {
+            room_availablity = false;
+        }
+
+        if(req.body.airconditioner == 'yes'){
+            ac = true;
+        } else {
+            ac = false;
+        }
+
+        if(req.body.internet == 'yes'){
+            internet = true;
+        }else {
+            internet = false;
+        }
+
+        if(req.body.washer == 'yes'){
+            washer = true;
+        }else {
+            washer = false;
+        }
+
+        if(req.body.dryer == 'yes'){
+            dryer = true;
+        }else {
+            dryer = false;
+        }
+
+        if(req.body.parking == 'yes'){
+            parking = true;
+        }else {
+            parking = false;
+        }
+
+        if(req.body.gym == 'yes'){
+            gym = true;
+        }else {
+            gym = false;
+        }
+
+        if(req.body.pool == 'yes'){
+            pool = true;
+        }else {
+            pool = false;
+        }
+
+        if(req.body.shared_room == 'yes'){
+            shared_room = true;
+        }else {
+            shared_room = false;
+        }
+
+        if(req.body.pet_friendly == 'yes'){
+            pet_friendly = true;
+        }else {
+            pet_friendly = false;
+        }
+
+        console.log("Sending New Room Request to Dynamo");
+
+
+        dbops.addNewRoom(creator,req.body.roomname,room_availablity,req.body.address,req.body.numrooms,ac,internet,washer,dryer,parking,gym,pool,shared_room,pet_friendly,req.body.rent,req.body.details,function (error, result,data) {
+
+            if (error || !result) {
+
+                console.log("Error received from Dynamo");
+                console.log(error);
+
+            } else {
+                console.log("Room addition is successful");
+                console.log(result);
+
+                console.log("Adding room to users current room");
+                dbops.UpdateUserTable(creator,'currroom',data,function (error1,result1) {
+
+                    if (error1 || !result1) {
+                        console.log('Error in adding room to users current room: \n',error1);
+                    } else {
+                        console.log('Users table updated successfully: \n',result1);
+                        console.log("REDIRECTING TO PROFILE PAGE");
+                        return res.redirect('/profile');
+                    }
+
+                })
+
+
+            }
+
+        })
+
+
+    } else {
+
+        var err = new Error('Sorry, all details are required fields.');
+        err.status = 400;
+        return next(err);
+
+    }
+
+})
+
 router.post('/register', mid.loggedOut, function(req, res, next) {
 
     if (req.body.email && req.body.name && req.body.gender && req.body.password && req.body.confirmPassword){

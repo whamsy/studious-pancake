@@ -5,6 +5,7 @@ var session = require('express-session');
 var cookieParser = require('cookie-parser');
 
 
+
 if (typeof localStorage === "undefined" || localStorage === null) {
     var LocalStorage = require('node-localstorage').LocalStorage;
     localStorage = new LocalStorage('./scratch');
@@ -12,11 +13,15 @@ if (typeof localStorage === "undefined" || localStorage === null) {
 
 var app = express();
 
+
+
 var AWS = require('aws-sdk');
 var config = {"endpoint":"http://localhost:8000"};
 var client = new AWS.DynamoDB(config);
 
 app.use(cookieParser());
+
+
 
 // var DynamoDBStore = require('connect-dynamodb')({session: session});
 
@@ -39,6 +44,7 @@ app.use(function (req, res, next) {
 });
 
 // parse incoming requests
+// app.use(bodyParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
