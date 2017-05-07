@@ -100,7 +100,6 @@ function addroom(RoomId,Name,UserID,Address,NoofRooms,PetFriendly,Neighbourhood,
                 "Neighborhood":Neighbourhood,
                 "Utilities":Utilities,
                 "Rent":Rent
-
             }
 
         }
