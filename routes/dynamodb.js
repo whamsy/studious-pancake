@@ -7,6 +7,8 @@ module.exports.dbfunc = function () {
 
     var AWS = require('aws-sdk');
 
+    const randint = require('uuid/v4');
+
     AWS.config.update({
         region: "us-west-2",
         endpoint: "http://localhost:8000"
@@ -93,6 +95,58 @@ module.exports.dbfunc = function () {
 
     }
 
+
+    this.addNewRoom= function (username,name,availability,address,numrooms,ac,wifi,washer,dryer,parking,gym,pool,shared,pets,rent,info,callback) {
+
+        var table = "Room";
+        var x = randint();
+
+        console.log("ADDING Room with ID" + x + "to Room Table");
+
+        var params = {
+            TableName:table,
+            Item:{
+                "roomID": x,
+                "roomname": name,
+                "address": address,
+                "createdby": username,
+                "Users":[username],
+                "Tasks":[],
+                "Room_Available": availability,
+                "User_Interested":[],
+                "Room_Details":{
+                    "numrooms": numrooms,
+                    "pets":pets,
+                    "airconditioner":ac,
+                    "internet":wifi,
+                    "washer":washer,
+                    "dryer":dryer,
+                    "parking":parking,
+                    "gym":gym,
+                    "pool":pool,
+                    "rent":rent,
+                    "info":info
+                }
+
+            }
+        };
+
+        docClient.put(params, function(error, result) {
+            if (error) {
+                console.log(error);
+                return callback("Error while adding room to dynamo: ",error);
+            } else {
+                console.log("Room added successfully to dynamo");
+
+                console.log("ADDING Room with ID" + x + "to Users current room");
+
+                return callback(null,result,x);
+            }
+        });
+
+
+    }
+
     this.getuserdetails = function(username,callback) {
 
         var params = {
@@ -112,6 +166,8 @@ module.exports.dbfunc = function () {
             } else{
 
                 var value1={};
+                value1["gender"]=data.Item.gender;
+                value1["currRoom"]=data.Item.currroom;
                 value1["Name"]=data.Item.name;
                 value1["Rating"]=data.Item.Rating;
                 value1["ProfilePic"]=data.Item.Profile_Picture;
