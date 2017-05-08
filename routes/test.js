@@ -43,6 +43,24 @@
 // });
 //
 
+// var params = {
+//     TableName: 'Room',
+//     ProjectionExpression:"roomname,roomID,address,Tasks,Room_Available,User_Interested,Room_Details,#usrs",
+//     FilterExpression: 'roomID = :v1',
+//     ExpressionAttributeNames:{
+//         "#usrs": "Users"
+//     },
+//     ExpressionAttributeValues: {
+//         ":v1": "d61dcd2e-3487-4b13-aba6-5cedd568962c",
+//     }
+// };
+//
+//
+// docClient.scan(params, function(err, data) {
+//     if (err) ppJson(err); // an error occurred
+//     else ppJson(data); // successful response
+// })
+
 // var x = ['yes',true,'ROOROOOSO'];
 
 var bools_only = ['room_available','airconditioner','internet','washer','dryer','parking','gym','pool','shared_room','pet_friendly'];
