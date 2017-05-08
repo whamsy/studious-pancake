@@ -1,47 +1,347 @@
-extends layout
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+        meta(http-equiv='x-ua-compatible', content='ie=edge')
+        title Room8Karma | #{title}
+        link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css', integrity='sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd', crossorigin='anonymous')
+        link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        style.
+            /* The Modal (background) */
+            .modal {
+                display: none; /* Hidden by default */
+                position: fixed; /* Stay in place */
+                z-index: 1; /* Sit on top */
+                padding-top: 100px; /* Location of the box */
+                left: 0;
+                top: 0;
+                width: 100%; /* Full width */
+                height: 100%; /* Full height */
+                overflow: auto; /* Enable scroll if needed */
+                background-color: rgb(0, 0, 0); /* Fallback color */
+                background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+            }
+
+            /* Modal Content */
+            .modal-content {
+                position: relative;
+                background-color: #fefefe;
+                margin: auto;
+                padding: 0;
+                border: 1px solid #888;
+                width: 80%;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                -webkit-animation-name: animatetop;
+                -webkit-animation-duration: 0.4s;
+                animation-name: animatetop;
+                animation-duration: 0.4s
+            }
+
+            /* Add Animation */
+            @-webkit-keyframes animatetop {
+                from {
+                    top: -300px;
+                    opacity: 0
+                }
+                to {
+                    top: 0;
+                    opacity: 1
+                }
+            }
+
+            @keyframes animatetop {
+                from {
+                    top: -300px;
+                    opacity: 0
+                }
+                to {
+                    top: 0;
+                    opacity: 1
+                }
+            }
+
+            /* The Close Button */
+            .close {
+                color: white;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            .close:hover,
+            .close:focus {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            .modal-header {
+                padding: 2px 16px;
+                background-color: #5cb85c;
+                color: white;
+            }
+
+            .modal-body {
+                padding: 2px 16px;
+            }
+
+            .modal-footer {
+                padding: 2px 16px;
+                background-color: #5cb85c;
+                color: white;
+            }
+    body
+        include navbar
+
+        //#myModal.modal
+        //    // Modal content
+        //    .modal-content
+        //        .modal-header
+        //            span.close ×
+        //            h2 Modal Header
+        //        .modal-body
+        //            p Some text in the Modal Body
+        //            p Some other text...
+        //        .modal-footer
+        //            h3 Modal Footer
+
+        #myModal.modal
+            .modal-content
+                form(method='POST' action='/addusertoroom')
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal') ×x
+                        h4.modal-title Add a Roomie
+                    .modal-body
+                        .form-group.col-md-12
+                            div.form-group
+                                label(for='roomieID') Enter your roommates username: (They need to be signed up with Room8karma first!)
+                                input#roomieID.form-control(type='text', placeholder='username' name='roomieID')
+                        .clearfix
+                    .modal-footer
+                        button.btn.btn-success(type='submit') Add!
+                        //button.btn.btn-default(type='button', data-dismiss='modal') ADD NOW
 
 
-block content
-    h4 Welcome to your room, #{username}!
-    br
-    .row
-        .col-md-5
-            h5 Room Name: #{roomname}
-        .col-md-6.col-md-offset-1
-            h5 Address: #{address}
-    .row
-        .col-md-12
-            h5 Roommates: #{users}
-            br
-    .row
-        .col-md-12
-            h5 Room currently available for rent: #{room_available}
-            br
-    .row
-        .col-md-12.col-md-offset-4
-            h5 Room Info
-            br
-    .row
-        .col-md-4.col-md-offset-1
-            h6 Basic
-        .col-md-5.col-md-offset-1
-            h6 Amenities
-    .row
-        .col-md-4
-            br
-            p Room Info: #{info}
-            p Number of bedrooms: #{numrooms}
-            p Number of roommates:
-            p Total Rent: #{rent}
-        .col-md-8
-            br
-            .col-md-6
-                p Airconditioner: #{ac}
-                p Internet: #{wifi}
-                p Washer: #{washer}
-                p Dryer: #{dryer}
-            .col-md-6
-                p Parking: #{parking}
-                p Gym: #{gym}
-                p Swimming Pool: #{pool}
-                p Pets Allowed: #{pets}
+
+        .main.container
+            .col-md-8
+                h3 Welcome to your room, #{username}!
+                    br
+                    br
+                    .row
+                        .col-md-5
+                            h5 Room Name: #{roomname}
+                        .col-md-6.col-md-offset-1
+                            h5 Address: #{address}
+                    br
+                    .row
+                        .col-md-6
+                            h5 Roommates: #{users}
+                        .col-md-6
+                            button.btn.btn-success#myBtn Add more roomies
+                            br
+                    br
+                    .row
+                        .col-md-12
+                            h5 Room currently available for rent: #{room_available}
+                            br
+                    .row
+                        .col-md-12.col-md-offset-4
+                            h4 Room Info
+                            br
+                    .row
+                        .col-md-4.col-md-offset-1
+                            h5 Basic
+                        .col-md-5.col-md-offset-1
+                            h5 Amenities
+                    .row
+                        .col-md-4
+                            br
+                            h6 Room Info: #{info}
+                            h6 Number of bedrooms: #{numrooms}
+                            h6 Number of roommates:
+                            h6 Total Rent: #{rent}
+                        .col-md-8
+                            br
+                            .col-md-6
+                                h6 Airconditioner: #{ac}
+                                h6 Internet: #{wifi}
+                                h6 Washer: #{washer}
+                                h6 Dryer: #{dryer}
+                            .col-md-6
+                                h6 Parking: #{parking}
+                                h6 Gym: #{gym}
+                                h6 Swimming Pool: #{pool}
+                                h6 Pets Allowed: #{pets}
+
+            include activitysidebar
+
+        // footer
+        p.foot.text-xs-center The Room8Karma Project
+
+        script(type='text/javascript', src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
+        script(src='http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js', type='text/javascript')
+        link(href='http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/blitzer/jquery-ui.css', rel='stylesheet', type='text/css')
+        script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
+        script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js', integrity='sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7', crossorigin='anonymous')
+        script.
+            // Get the modal
+            var modal = document.getElementById('myModal');
+            // Get the button that opens the modal
+            var btn = document.getElementById("myBtn");
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+            // When the user clicks the button, open the modal
+            btn.onclick = function() {
+                modal.style.display = "block";
+            }
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+
+
+
+//doctype html(lang='en')
+//head
+//    meta(charset='utf-8')
+//    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+//    meta(http-equiv='x-ua-compatible', content='ie=edge')
+//    title Room8Karma | #{title}
+//    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css', integrity='sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd', crossorigin='anonymous')
+//    link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+//    link(rel='stylesheet', href='/stylesheets/style.css')
+//
+//
+//    body
+//        // load navbar.jade
+//        include navbar
+//
+//
+//        .main.container
+//            .col-md-8
+//                h4 Welcome to your room, #{username}!
+//                    br
+//                    .row
+//                        .col-md-5
+//                            h5 Room Name: #{roomname}
+//                        .col-md-6.col-md-offset-1
+//                            h5 Address: #{address}
+//                    .row
+//                        .col-md-12
+//                            h5 Roommates: #{users}
+//                                button(type='submit',id="btnShow") Click to add your roomies!
+//                                #dialog(style='display: none')
+//                                    | This is a jQuery Dialog.
+//                            br
+//                    .row
+//                        .col-md-12
+//                            h5 Room currently available for rent: #{room_available}
+//                            br
+//                    .row
+//                        .col-md-12.col-md-offset-4
+//                            h5 Room Info
+//                            br
+//                    .row
+//                        .col-md-4.col-md-offset-1
+//                            h6 Basic
+//                        .col-md-5.col-md-offset-1
+//                            h6 Amenities
+//                    .row
+//                        .col-md-4
+//                            br
+//                            p Room Info: #{info}
+//                            p Number of bedrooms: #{numrooms}
+//                            p Number of roommates:
+//                            p Total Rent: #{rent}
+//                        .col-md-8
+//                            br
+//                            .col-md-6
+//                                p Airconditioner: #{ac}
+//                                p Internet: #{wifi}
+//                                p Washer: #{washer}
+//                                p Dryer: #{dryer}
+//                            .col-md-6
+//                                p Parking: #{parking}
+//                                p Gym: #{gym}
+//                                p Swimming Pool: #{pool}
+//                                p Pets Allowed: #{pets}
+//
+//            include activitysidebar
+//
+//        // footer
+//        p.foot.text-xs-center The Room8Karma Project
+//
+//        script(type='text/javascript', src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
+//        script(src='http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js', type='text/javascript')
+//        link(href='http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/blitzer/jquery-ui.css', rel='stylesheet', type='text/css')
+//        script(type='text/javascript').
+//            $(function () {
+//                $("#dialog").dialog({
+//                    modal: true,
+//                    autoOpen: false,
+//                    title: "jQuery Dialog",
+//                    width: 300,
+//                    height: 150
+//                });
+//                $("#btnShow").click(function () {
+//                    $('#dialog').dialog('open');
+//                });
+//            });
+//        script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
+//        script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js', integrity='sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7', crossorigin='anonymous')
+
+//block content
+//    h4 Welcome to your room, #{username}!
+//    br
+//    .row
+//        .col-md-5
+//            h5 Room Name: #{roomname}
+//        .col-md-6.col-md-offset-1
+//            h5 Address: #{address}
+//    .row
+//        .col-md-12
+//            h5 Roommates: #{users}
+//                button(type='submit',id="btnclick") Click to add your roomies!
+//            br
+//    .row
+//        .col-md-12
+//            h5 Room currently available for rent: #{room_available}
+//            br
+//    .row
+//        .col-md-12.col-md-offset-4
+//            h5 Room Info
+//            br
+//    .row
+//        .col-md-4.col-md-offset-1
+//            h6 Basic
+//        .col-md-5.col-md-offset-1
+//            h6 Amenities
+//    .row
+//        .col-md-4
+//            br
+//            p Room Info: #{info}
+//            p Number of bedrooms: #{numrooms}
+//            p Number of roommates:
+//            p Total Rent: #{rent}
+//        .col-md-8
+//            br
+//            .col-md-6
+//                p Airconditioner: #{ac}
+//                p Internet: #{wifi}
+//                p Washer: #{washer}
+//                p Dryer: #{dryer}
+//            .col-md-6
+//                p Parking: #{parking}
+//                p Gym: #{gym}
+//                p Swimming Pool: #{pool}
+//                p Pets Allowed: #{pets}

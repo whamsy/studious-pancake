@@ -219,8 +219,8 @@ module.exports.dbfunc = function () {
                 value2["User_Interested"]= data.Item.User_Interested;
                 value2["numrooms"]= data.Item.Room_Details['numrooms'];
                 value2["pets"]=data.Item.Room_Details['pets'];
-                value2["airconditioner"]=data.Item.Room_Details['ac'];
-                value2["internet"]=data.Item.Room_Details['wifi'];
+                value2["airconditioner"]=data.Item.Room_Details['airconditioner'];
+                value2["internet"]=data.Item.Room_Details['internet'];
                 value2["washer"]=data.Item.Room_Details['washer'];
                 value2["dryer"]=data.Item.Room_Details['dryer'];
                 value2["parking"]=data.Item.Room_Details['parking'];
@@ -236,6 +236,39 @@ module.exports.dbfunc = function () {
 
 
 
+
+
+    }
+
+    this.addusertoroom = function(UserID,RoomID,callback)
+    {
+
+
+        var table ='Room';
+
+        var params = {
+            TableName: table,
+            Key: {roomID: RoomID},
+            UpdateExpression: "SET #attrName = list_append(#attrName,:attrValue)",
+            ExpressionAttributeNames: {
+                "#attrName": "Users"
+            },
+            ExpressionAttributeValues: {
+                ':attrValue': [UserID]
+            }
+        }
+
+        console.log("Updating the item...");
+        docClient.update(params, function(err, data) {
+            if (err) {
+                console.log(err);
+                return callback(err);
+            } else {
+                console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
+                return(callback(null,data));
+
+            }
+        });
 
 
     }

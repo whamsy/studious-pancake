@@ -148,6 +148,79 @@ router.post('/preferences', function(req, res, next) {
 
 });
 
+
+router.post('/addusertoroom', function(req, res, next) {
+
+    var roomie = req.body.roomieID;
+
+    if (req.session && req.session.username &&req.session.loggedin) {
+
+        dbops.getuserdetails(req.session.username,function (error,result) {
+
+            if (error || !result) {
+                var err = new Error('Sorry, could not get your data at the moment');
+                err.status = 401;
+                return next(err);
+            }  else {
+
+                dbops.UpdateUserTable(roomie,'currRoom',result['currRoom'],function (error1,result1) {
+
+                    if (error1 || !result1) {
+                        var err = new Error('Sorry, could not get your data at the moment');
+                        err.status = 401;
+                        return next(err);
+                    }  else {
+
+                        dbops.addusertoroom(roomie,result['currRoom'],function (error2,result2) {
+
+                            if (error2 || !result2) {
+                                var err = new Error('Sorry, could not get your data at the moment');
+                                err.status = 401;
+                                return next(err);
+                            }  else {
+
+                                return res.redirect('/room');
+
+                            }
+
+
+                        })
+
+
+
+                    }
+
+                })
+            }
+
+        })
+    }
+
+
+
+
+
+    // preference_list = {
+    //     "cleanliness": req.body.cleanliness,
+    //     "smoking": req.body.smoking,
+    //     "drinking": req.body.drinking,
+    //     "party": req.body.party
+    // }
+    //
+    // dbops.UpdateUserTable(req.session.username,"Preferences",preference_list, function(error1,result1){
+    //
+    //     if (error1 || !result1) {
+    //         console.log('ERROR IN UPDATING PREFERENCES: \n',error1);
+    //     } else {
+    //         console.log('RESULT OF UPDATING PREFERENCES: \n',result1);
+    //         console.log("REDIRECTING TO PROFILE PAGE");
+    //         return res.redirect('/profile');
+    //     }
+    //
+    // });
+
+});
+
 router.post('/conf', function(req, res, next) {
 
     userNEW.conf(req.session.username,req.body.confcode,function (error,result) {
