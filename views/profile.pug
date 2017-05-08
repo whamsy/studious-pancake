@@ -4,9 +4,30 @@ extends layout
 block content
     .row
         .col-md-4
-            img.img-circle.img-responsive(src='http://cdn2.business2community.com/wp-content/uploads/2014/04/profile-picture-300x300.jpg' width="70" height="70")
+            .row
+                .col-md-12
+                    center
+                        img.img-circle.img-responsive(src= pic width="70" height="70")
+                        br
+                        br
+            .row
+                .col-md-12
+                    center
+                        button.btn(type='button', data-toggle='collapse', data-target='#demox2')
+                            i.fa.fa-pencil
+                            |   Change Pic!
+                        #demox2.collapse
+                            br
+                            form(action='upload_user_pic.php', method='POST', enctype='multipart/form-data')
+                                input(type='hidden', name='MAX_FILE_SIZE', value='2000000')
+                                input#dp(name='dp', type='file')
+                                br
+                                button#uploaduserimage.w3-btn.w3-theme(type='submit', name='uploaduserimage', value='uploaduserimage', onclick="myFunction('Reci')")
+                                    i.fa.fa-pencil
+                                    | Submit
             .review-block-name
-                | Rating : #{rating}
+                center
+                    | Rating : #{rating}
 
 
         .col-md-8
@@ -16,10 +37,10 @@ block content
                 .col-md-4
                     p
                         strong Age:
-                        |  24
+                        |  #{age}
             p
                 strong About:
-                |  Web Designer / UI.
+                |  #{about}
             p
                 strong Preferences:
                 br
