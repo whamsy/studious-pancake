@@ -34,7 +34,7 @@ module.exports.dbfunc = function () {
                 "gender": usergender,
                 "email": useremail,
                 "Preferences":[],
-                "Profile_Picture":'#',
+                "Profile_Picture":'default',
                 "Rating":0,
                 "User_available":true,
                 "Tasks":[],
@@ -67,6 +67,41 @@ module.exports.dbfunc = function () {
             Key:{
 
                 "username": username
+            },
+            UpdateExpression: "set "+parametername+" = :r",
+            ExpressionAttributeValues:{
+                ":r":parametervalue
+            }
+        };
+
+        console.log("UPDATING " + username + "'s "+parametername+"s");
+
+        docClient.update(params, function(error, result) {
+            if (error) {
+                // console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+                console.log(error);
+                return callback(error);
+            } else {
+                // console.log("Added item:", JSON.stringify(data, null, 2));
+                // console.log('result passed');
+                // console.log('JSOn OUTPUT: ', JSON.stringify(result, null, 2));
+                // console.log('RESULT',result);
+                console.log("preferences updated successfully");
+                return callback(null,result);
+            }
+        });
+
+
+
+    }
+
+    this.UpdateRoomTable= function (roomID, parametername, parametervalue,callback) {
+
+        var params = {
+            TableName:'Room',
+            Key:{
+
+                "roomID": roomID
             },
             UpdateExpression: "set "+parametername+" = :r",
             ExpressionAttributeValues:{
@@ -167,13 +202,15 @@ module.exports.dbfunc = function () {
 
                 var value1={};
                 value1["gender"]=data.Item.gender;
-                value1["currRoom"]=data.Item.currroom;
+                value1["currRoom"]=data.Item.currRoom;
                 value1["Name"]=data.Item.name;
                 value1["Rating"]=data.Item.Rating;
-                value1["ProfilePic"]=data.Item.Profile_Picture;
+                value1["dp"]=data.Item.Profile_Picture;
                 value1["Room_Interested"]=data.Item.Room_Interested;
                 value1["Preferences"]=data.Item.Preferences;
                 value1["username"]=data.Item.username;
+                value1["age"]=data.Item.Age;
+                value1["about"]=data.Item.About;
 
                 return(callback(null,value1));
             }
