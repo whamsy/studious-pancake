@@ -123,18 +123,39 @@ html
                         button.btn.btn-success(type='submit') Add!
                         //button.btn.btn-default(type='button', data-dismiss='modal') ADD NOW
 
-
+        #leaveModal.modal
+            .modal-content
+                form(method='POST' action='/leaveroom')
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal1') ×x
+                        h4.modal-title Leave Room
+                    .modal-body
+                        .form-group.col-md-12
+                            div.form-group
+                                label(for='confirm') You sure you want to leave this room?
+                                //input#roomieID.form-control(type='text', placeholder='username' name='roomieID')
+                        .clearfix
+                    .modal-footer
+                        button.btn.btn-success(type='submit') Yes!
+                        //button.btn.btn-default(type='button', data-dismiss='modal') ADD NOW
 
         .main.container
             .col-md-8
-                h3 Welcome to your room, #{username}!
-                    br
-                    br
+                .row
+                    .col-md-8
+                        h3 Welcome to your room, #{username}!
+                        br
+                        br
+                    .col-md-4
+                        button.btn.btn-success#leaveBtn Leave Room
                     .row
                         .col-md-5
                             h5 Room Name: #{roomname}
                         .col-md-6.col-md-offset-1
                             h5 Address: #{address}
+                    .row
+                        .col-md-12
+                            h6 Room ID: #{currRoom}
                     br
                     .row
                         .col-md-6
@@ -203,10 +224,34 @@ html
             }
             // When the user clicks anywhere outside of the modal, close it
             window.onclick = function(event) {
-                if (event.target == modal) {
+                if (event.target == modal || event.target == modal1) {
                     modal.style.display = "none";
+                    modal1.style.display = "none";
                 }
             }
+        script.
+            // Get the modal
+            var modal1 = document.getElementById('leaveModal');
+            // Get the button that opens the modal
+            var btn1 = document.getElementById("leaveBtn");
+            // Get the <span> element that closes the modal
+            var span1 = document.getElementsByClassName("close")[0];
+            // When the user clicks the button, open the modal
+            btn1.onclick = function () {
+                modal1.style.display = "block";
+            }
+            // When the user clicks on <span> (x), close the modal
+            span1.onclick = function () {
+                modal1.style.display = "none";
+            }
+            window.onclick = function (event) {
+                if(event.target == modal || event.target == modal1)
+                {
+                    modal.style.display = "none";
+                    modal1.style.display = "none";
+                }
+            }
+            // When the user clicks anywhere outside of the modal, close it
 
 
 
