@@ -8,6 +8,7 @@ head
   link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
   link(rel='stylesheet', href='/stylesheets/style.css')
 
+
   body
     // load navbar.jade
     include navbar
@@ -25,5 +26,21 @@ head
     // footer
     p.foot.text-xs-center The Room8Karma Project
 
+    script(type='text/javascript', src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
+    script(src='http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js', type='text/javascript')
+    link(href='http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/blitzer/jquery-ui.css', rel='stylesheet', type='text/css')
+    script(type='text/javascript').
+        $(function () {
+            $("#dialog").dialog({
+                modal: true,
+                autoOpen: false,
+                title: "jQuery Dialog",
+                width: 300,
+                height: 150
+            });
+            $("#btnShow").click(function () {
+                $('#dialog').dialog('open');
+            });
+        });
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js', integrity='sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7', crossorigin='anonymous')
