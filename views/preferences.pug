@@ -40,6 +40,12 @@ block content
                 option(value='Absolutely, my house always rocks') Absolutely, my house always rocks
                 option(value='Small groups, non-nuisance type') Small groups, non-nuisance type
                 option(value='Not really, more into Jazz') Not really, more into Jazz
-
-
+        .row
+            div.form-group
+                label(for='age') Your age:
+                input#age.form-control(type='Integer' name='age' placeholder="age in years")
+        .row
+            div.form-group
+                label(for='about') What best describes you?
+                input#about.form-control(type='text' name='about' placeholder="a little about yourself")
         button.btn.btn-primary(type='submit') Submit
