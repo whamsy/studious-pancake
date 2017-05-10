@@ -35,7 +35,10 @@ router.get('/room', function(req, res, next) {
                             return next(err);
                         }  else {
 
-                            return res.render('userroom', { title: 'Your Room', currRoom: result1['roomID'],username: req.session.username, roomname:result1["roomname"] ,address:result1["address"] ,users:result1["Users"], room_available:result1["Room_Available"] ,info:result1["info"] , numrooms:result1["numrooms"] ,rent:result1["rent"] , ac:result1["airconditioner"] , wifi:result1["internet"] , washer:result1["washer"] , dryer:result1["dryer"] ,parking:result1["parking"] , gym:result1["gym"] ,pool:result1["pool"] , pets:result1["pets"] });
+                            console.log("ROOM DETAILS\n")
+                            console.log(result1);
+
+                            return res.render('userroom', { title: 'Your Room', currRoom: result1['roomID'],username: req.session.username, roomname:result1["roomname"] ,address:result1["address"] ,users:result1["Users"], room_available:result1["Room_Available"] ,info:result1["info"] , numrooms:result1["numrooms"] ,rent:result1["rent"] , ac:result1["airconditioner"] , wifi:result1["internet"] , washer:result1["washer"] , dryer:result1["dryer"] ,parking:result1["parking"] , gym:result1["gym"] ,pool:result1["pool"] , pets:result1["pets"], numtasks:result1['numtasks']});
 
                         }
 
@@ -52,6 +55,15 @@ router.get('/room', function(req, res, next) {
 
 });
 
+router.post('/addtaskform', function(req, res, next) {
+    console.log(req.body);
+    return res.render('addtask', { title: 'Add Task' });
+});
+
+router.post('/addtask', function(req, res, next) {
+    console.log(req.body);
+    return res.render('addtask', { title: 'Add Task' });
+});
 
 // GET /contact
 router.get('/roomsearch', function(req, res, next) {

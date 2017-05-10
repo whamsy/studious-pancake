@@ -1,0 +1,54 @@
+extends layout
+
+
+block content
+    .col-md-6.col-md-offset-3
+        form(method='POST' action='/addtask')
+            div.form-group
+                label(for='taskname') Task Name:
+                input#taskname.form-control(type='text', placeholder='what is the task about?' name='taskname')
+                input#roomid.form-control(type='hidden', name='roomid', value = roomID)
+            div.form-group
+                label(for='startdate') Start Date:
+                input#startdate.form-control(type='date', placeholder='' name='startdate')
+            div.form-group
+                label(for='enddate') End Date:
+                input#enddate.form-control(type='date', placeholder='' name='enddate')
+            div.form-group
+                label Frequency:
+                br
+                select#freq
+                    option(value='1') Everyday
+                    option(value='7') Weekly
+                    option(value='14') Bi-Weekly
+                    option(value='15') Fortnightly
+                    option(value='30') Monthly
+            button.btn.btn-primary(type='submit') Submit
+
+    //        p
+    //            label(for='new-task') Add Task
+    //            | Task Name:
+    //            input#new-task(type='text')
+    //        p
+    //            | Start Date
+    //            input#start-date(type='date')
+    //
+    //        p
+    //            | End Date
+    //            input#end-date(type='date')
+    //        p
+    //            | Frequency:
+    //            select#dropdown
+    //                option(value='Everyday') Everyday
+    //                option(value='Weekly') Weekly
+    //                option(value='Bi-Weekly') Bi-Weekly
+    //                option(value='Monthly') Monthly
+    //        p
+    //            | Roommates:
+    //            select#dropdown
+    //                option(value='') Everyday
+    //                option(value='') Weekly
+    //                option(value='Bi-Weekly') Bi-Weekly
+    //                option(value='Monthly') Monthly
+    //        button Add
+    //script(type='text/javascript', src='stylesheets/main.js')
