@@ -63,13 +63,26 @@
 
 // var x = ['yes',true,'ROOROOOSO'];
 
-var bools_only = ['room_available','airconditioner','internet','washer','dryer','parking','gym','pool','shared_room','pet_friendly'];
+// var bools_only = ['room_available','airconditioner','internet','washer','dryer','parking','gym','pool','shared_room','pet_friendly'];
+//
+// for (word in bools_only){
+//     // if (req.body.bools_only[word] == 'yes'){
+//         console.log(req.body.bools_only[word]);
+//     // }
+// }
 
-for (word in bools_only){
-    // if (req.body.bools_only[word] == 'yes'){
-        console.log(req.body.bools_only[word]);
-    // }
-}
+var date = require('date-and-time');
+// var now = new Date();
+// var tmrrw = date.addDays(now, 3000);
+// date.format(now, 'ddd MMM DD YYYY');
+
+// console.log(date);
+
+// console.log(now);
+
+ console.log(date.format(date.addDays(new Date(),3000), 'ddd MMM DD YYYY'));
+//
+// console.log(date.format(tmrrw, 'ddd MMM DD YYYY'));
 
 // var x_dict = {ac:'yes',washer:'no'}
 //
