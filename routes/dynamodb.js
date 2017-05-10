@@ -95,40 +95,40 @@ module.exports.dbfunc = function () {
 
     }
 
-    this.UpdateRoomTable= function (roomID, parametername, parametervalue,callback) {
-
-        var params = {
-            TableName:'Room',
-            Key:{
-
-                "roomID": roomID
-            },
-            UpdateExpression: "set "+parametername+" = :r",
-            ExpressionAttributeValues:{
-                ":r":parametervalue
-            }
-        };
-
-        console.log("UPDATING " + username + "'s "+parametername+"s");
-
-        docClient.update(params, function(error, result) {
-            if (error) {
-                // console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
-                console.log(error);
-                return callback(error);
-            } else {
-                // console.log("Added item:", JSON.stringify(data, null, 2));
-                // console.log('result passed');
-                // console.log('JSOn OUTPUT: ', JSON.stringify(result, null, 2));
-                // console.log('RESULT',result);
-                console.log("preferences updated successfully");
-                return callback(null,result);
-            }
-        });
-
-
-
-    }
+    // this.UpdateRoomTable= function (roomID, parametername, parametervalue,callback) {
+    //
+    //     var params = {
+    //         TableName:'Room',
+    //         Key:{
+    //
+    //             "roomID": roomID
+    //         },
+    //         UpdateExpression: "set "+parametername+" = :r",
+    //         ExpressionAttributeValues:{
+    //             ":r":parametervalue
+    //         }
+    //     };
+    //
+    //     console.log("UPDATING " + username + "'s "+parametername+"s");
+    //
+    //     docClient.update(params, function(error, result) {
+    //         if (error) {
+    //             // console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+    //             console.log(error);
+    //             return callback(error);
+    //         } else {
+    //             // console.log("Added item:", JSON.stringify(data, null, 2));
+    //             // console.log('result passed');
+    //             // console.log('JSOn OUTPUT: ', JSON.stringify(result, null, 2));
+    //             // console.log('RESULT',result);
+    //             console.log("preferences updated successfully");
+    //             return callback(null,result);
+    //         }
+    //     });
+    //
+    //
+    //
+    // }
 
 
     this.addNewRoom= function (username,name,availability,address,numrooms,ac,wifi,washer,dryer,parking,gym,pool,shared,pets,rent,info,callback) {
@@ -251,6 +251,7 @@ module.exports.dbfunc = function () {
                 value2["roomname"]= data.Item.roomname;
                 value2["address"]= data.Item.address;
                 value2["Users"]= data.Item.Users;
+                value2["numtasks"] = data.Item.Users.length;
                 value2["Tasks"]= data.Item.Tasks;
                 value2["Room_Available"]= data.Item.Room_Available;
                 value2["User_Interested"]= data.Item.User_Interested;

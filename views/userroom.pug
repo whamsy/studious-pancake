@@ -196,6 +196,26 @@ html
                                 h6 Gym: #{gym}
                                 h6 Swimming Pool: #{pool}
                                 h6 Pets Allowed: #{pets}
+                    .row
+                        .col-md-5.col-md-offset-3
+                            br
+                            h3 Room Tasks
+                        .col-md-4
+                            br
+                            form(method='POST' action='/addtaskform')
+                                button.btn.btn-success Add new task!
+                                input#roomID.form-control(type='hidden', name='roomID', value = currRoom)
+                    .row
+                        .col-md-12
+                            if(numtasks == 0)
+                                p.
+                                    Looks like no tasks have been added yet!
+                            else
+                                -var n = 0;
+                                    while n < numtasks
+                                        h1 #{users[n++]}
+
+
 
             include activitysidebar
 
