@@ -133,6 +133,7 @@ html
                         .form-group.col-md-12
                             div.form-group
                                 label(for='confirm') You sure you want to leave this room?
+                                input#roomidval.form-control(type='hidden',name="roomidval",value=currRoom)
                                 //input#roomieID.form-control(type='text', placeholder='username' name='roomieID')
                         .clearfix
                     .modal-footer
@@ -158,7 +159,11 @@ html
             br
             .row
                 .col-md-8
-                    h5 Roommates: #{users}
+                    h5 Roommates:
+                    -var n = 0;
+                        while n < numusers
+                            .row
+                                a(href='/userprofile?user='+users[n]) #{users[n++]}
                 .col-md-4
                     button.btn.btn-info#myBtn Add Roomies
                     br
