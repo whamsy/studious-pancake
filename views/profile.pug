@@ -18,13 +18,11 @@ block content
                             |   Change Pic!
                         #demox2.collapse
                             br
-                            form(action='upload_user_pic.php', method='POST', enctype='multipart/form-data')
-                                input(type='hidden', name='MAX_FILE_SIZE', value='2000000')
+                            form(action='/uploaddp', method='POST', enctype='multipart/form-data')
+                                //input(type='hidden', name='MAX_FILE_SIZE', value='2000000')
                                 input#dp(name='dp', type='file')
                                 br
-                                button#uploaduserimage.w3-btn.w3-theme(type='submit', name='uploaduserimage', value='uploaduserimage', onclick="myFunction('Reci')")
-                                    i.fa.fa-pencil
-                                    | Submit
+                                button#uploaddp.btn.btn-warning.btn-sm(type='submit', name='uploaddp') Submit
             .review-block-name
                 center
                     | Rating : #{rating}
@@ -55,18 +53,34 @@ block content
     .row
         br
         br
-        h4 Reviews for #{name}:
-        .col-md-4
-            img.img-rounded(src='http://cdn2.business2community.com/wp-content/uploads/2014/04/profile-picture-300x300.jpg' width="50" height="50")
-            .review-block-name
-                a(href='#') nktailor
-            .review-block-date
-                | January 29, 2016
-                br
-                | 1 day ago
-        .col-md-8
-            .review-block-title this was nice in buy
-            .review-block-description
-                | this was nice in buy. this was nice in buy. this was nice in buy. this was nice in buy this was nice in buy this was nice in buy this was nice in buy this was nice in buy
-            .review-block-rate
-                | Sentiment
+        if(numreviews==0)
+            h4 No reviews for you yet!
+        else
+            h4 Reviews for #{name}:
+            br
+            -var n = 0
+                while n<numreviews
+                    .row
+                        .col-md-3
+                            h4 Review by : #{reviews[n].reviewer}
+                        .col-md-3
+                            h5 #{reviews[n].reviewtext}
+                        .col-md-3
+                            h4 Sentiment : #{reviews[n].sentiment}
+                        .col-md-3
+                            h4 Rating: #{reviews[n++].rating}
+        //h4 Reviews for #{name}:
+        //.col-md-4
+        //    img.img-rounded(src='http://cdn2.business2community.com/wp-content/uploads/2014/04/profile-picture-300x300.jpg' width="50" height="50")
+        //    .review-block-name
+        //        a(href='#') nktailor
+        //    .review-block-date
+        //        | January 29, 2016
+        //        br
+        //        | 1 day ago
+        //.col-md-8
+        //    .review-block-title this was nice in buy
+        //    .review-block-description
+        //        | this was nice in buy. this was nice in buy. this was nice in buy. this was nice in buy this was nice in buy this was nice in buy this was nice in buy this was nice in buy
+        //    .review-block-rate
+        //        | Sentiment
