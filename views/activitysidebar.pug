@@ -1,4 +1,35 @@
-.col-md-4
-    h4 hopefull this pushes it off
-    li hello
+extends layout
+
+block content
+
+    h3 Today is : #{today}
+
+
+    if(numtasks == 0)
+        br
+        h4 Looks like you have nothing coming up! *jealous*
+    else
+        br
+        h4 Tasks on your radar!
+        br
+        -var n = 0;
+            while (n < numtasks && (tasks[n]['taskid'] !== null) && (tasks[n]['taskname'] !== null) && (tasks[n]['taskdate'] !== null))
+                if(today >= tasks[n]['taskdate'])
+                    .row
+                        .row
+                            .col-md-4
+                                h5 #{tasks[n]['taskname']}
+                            .col-md-4
+                                h5 #{tasks[n++]['taskdate']}
+                            .col-md-4
+                                button.btn.btn-success.btn-sm(type='submit') Mark as completed!
+                else
+                    .row
+                        .row
+                            .col-md-4
+                                h6 #{tasks[n]['taskname']}
+                            .col-md-4
+                                h6 #{tasks[n++]['taskdate']}
+
+
 
