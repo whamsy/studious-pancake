@@ -140,87 +140,87 @@ html
                         //button.btn.btn-default(type='button', data-dismiss='modal') ADD NOW
 
         .main.container
-            .col-md-8
-                .row
-                    .col-md-8
-                        h3 Welcome to your room, #{username}!
-                        br
-                        br
-                    .col-md-4
-                        button.btn.btn-success#leaveBtn Leave Room
-                    .row
-                        .col-md-5
-                            h5 Room Name: #{roomname}
-                        .col-md-6.col-md-offset-1
-                            h5 Address: #{address}
-                    .row
-                        .col-md-12
-                            h6 Room ID: #{currRoom}
+            .row
+                .col-md-8
+                    h3 Welcome to your room, #{username}!
                     br
-                    .row
-                        .col-md-6
-                            h5 Roommates: #{users}
-                        .col-md-6
-                            button.btn.btn-success#myBtn Add more roomies
-                            br
                     br
-                    .row
-                        .col-md-12
-                            h5 Room currently available for rent: #{room_available}
-                            br
-                    .row
-                        .col-md-12.col-md-offset-4
-                            h4 Room Info
-                            br
-                    .row
-                        .col-md-4.col-md-offset-1
-                            h5 Basic
-                        .col-md-5.col-md-offset-1
-                            h5 Amenities
-                    .row
-                        .col-md-4
-                            br
-                            h6 Room Info: #{info}
-                            h6 Number of bedrooms: #{numrooms}
-                            h6 Number of roommates:
-                            h6 Total Rent: #{rent}
-                        .col-md-8
-                            br
-                            .col-md-6
-                                h6 Airconditioner: #{ac}
-                                h6 Internet: #{wifi}
-                                h6 Washer: #{washer}
-                                h6 Dryer: #{dryer}
-                            .col-md-6
-                                h6 Parking: #{parking}
-                                h6 Gym: #{gym}
-                                h6 Swimming Pool: #{pool}
-                                h6 Pets Allowed: #{pets}
-                    .row
-                        .col-md-5.col-md-offset-3
-                            br
-                            h3 Room Tasks
-                        .col-md-4
-                            br
-                            form(method='POST' action='/addtaskform')
-                                button.btn.btn-success Add new task!
-                                input#roomID.form-control(type='hidden', name='roomID', value = currRoom)
-                    .row
-                        if(numtasks == 0)
-                            p.
-                                Looks like no tasks have been added yet!
-                        else
-                            -var n = 0;
-                                while (n < numtasks && (tasklist[n]['taskid'] !== null) && (tasklist[n]['userassigned'] !== null) && (tasklist[n]['taskdate'] !== null))
-                                    .col-md-4
-                                        h6 #{tasklist[n]['taskdate']}
-                                    .col-md-4
-                                        h6 #{tasklist[n]['userassigned']}
-                                    .col-md-4
-                                        h6 #{tasklist[n++]['taskname']}
+                .col-md-4
+                    button.btn.btn-danger#leaveBtn Leave Room
+            .row
+                .col-md-8
+                    h5 Room Name: #{roomname}
+                .col-md-4
+                    h5 Address: #{address}
+            .row
+                .col-md-12
+                    h6 Room ID: #{currRoom}
+            br
+            .row
+                .col-md-8
+                    h5 Roommates: #{users}
+                .col-md-4
+                    button.btn.btn-info#myBtn Add Roomies
+                    br
+            br
+            .row
+                .col-md-12
+                    h5 Room currently available for rent: #{room_available}
+                    br
+            .row
+                .col-md-12.col-md-offset-4
+                    h4 Room Info
+                    br
+            .row
+                .col-md-3.col-md-offset-1
+                    h5 Basic
+                .col-md-3.col-md-offset-3
+                    h5 Amenities
+            .row
+                .col-md-5
+                    br
+                    h6 Room Info: #{info}
+                    h6 Number of bedrooms: #{numrooms}
+                    h6 Total Rent: #{rent}
+                .col-md-7
+                    br
+                    .col-md-6
+                        h6 Airconditioner: #{ac}
+                        h6 Internet: #{wifi}
+                        h6 Washer: #{washer}
+                        h6 Dryer: #{dryer}
+                    .col-md-6
+                        h6 Parking: #{parking}
+                        h6 Gym: #{gym}
+                        h6 Swimming Pool: #{pool}
+                        h6 Pets Allowed: #{pets}
+            .row
+                .col-md-3.col-md-offset-3
+                    br
+                    h3 Room Tasks
+                .col-md-4.col-md-offset-2
+                    br
+                    form(method='POST' action='/addtaskform')
+                        button.btn.btn-info Add new task!
+                        input#roomID.form-control(type='hidden', name='roomID', value = currRoom)
+            .row
+                if(numtasks == 0)
+                    br
+                    p.
+                        Looks like no tasks have been added yet!
+                else
+                    br
+                    -var n = 0;
+                        while (n < numtasks && (tasklist[n]['taskid'] !== null) && (tasklist[n]['userassigned'] !== null) && (tasklist[n]['taskdate'] !== null))
+                            .col-md-4
+                                h6 #{tasklist[n]['taskdate']}
+                            .col-md-4
+                                h6 #{tasklist[n]['userassigned']}
+                            .col-md-4
+                                h6 #{tasklist[n++]['taskname']}
 
 
-            include activitysidebar
+            //include activitysidebar
 
         // footer
         p.foot.text-xs-center The Room8Karma Project
