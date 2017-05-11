@@ -206,15 +206,18 @@ html
                                 button.btn.btn-success Add new task!
                                 input#roomID.form-control(type='hidden', name='roomID', value = currRoom)
                     .row
-                        .col-md-12
-                            if(numtasks == 0)
-                                p.
-                                    Looks like no tasks have been added yet!
-                            else
-                                -var n = 0;
-                                    while n < numtasks
-                                        h1 #{users[n++]}
-
+                        if(numtasks == 0)
+                            p.
+                                Looks like no tasks have been added yet!
+                        else
+                            -var n = 0;
+                                while (n < numtasks && (tasklist[n]['taskid'] !== null) && (tasklist[n]['userassigned'] !== null) && (tasklist[n]['taskdate'] !== null))
+                                    .col-md-4
+                                        h6 #{tasklist[n]['taskdate']}
+                                    .col-md-4
+                                        h6 #{tasklist[n]['userassigned']}
+                                    .col-md-4
+                                        h6 #{tasklist[n++]['taskname']}
 
 
             include activitysidebar

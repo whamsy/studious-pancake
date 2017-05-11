@@ -4,6 +4,8 @@ var router = express.Router();
 var mid = require('../middleware');
 var user = require('./user.js');
 var database = require('./dynamodb.js');
+var date = require('date-and-time');
+var HashMap = require('hashmap');
 
 var userNEW = new user.Auth();
 var dbops = new database.dbfunc();
@@ -38,7 +40,7 @@ router.get('/room', function(req, res, next) {
                             console.log("ROOM DETAILS\n")
                             console.log(result1);
 
-                            return res.render('userroom', { title: 'Your Room', currRoom: result1['roomID'],username: req.session.username, roomname:result1["roomname"] ,address:result1["address"] ,users:result1["Users"], room_available:result1["Room_Available"] ,info:result1["info"] , numrooms:result1["numrooms"] ,rent:result1["rent"] , ac:result1["airconditioner"] , wifi:result1["internet"] , washer:result1["washer"] , dryer:result1["dryer"] ,parking:result1["parking"] , gym:result1["gym"] ,pool:result1["pool"] , pets:result1["pets"], numtasks:result1['numtasks']});
+                            return res.render('userroom', { title: 'Your Room', currRoom: result1['roomID'],username: req.session.username, roomname:result1["roomname"] ,address:result1["address"] ,users:result1["Users"], room_available:result1["Room_Available"] ,info:result1["info"] , numrooms:result1["numrooms"] ,rent:result1["rent"] , ac:result1["airconditioner"] , wifi:result1["internet"] , washer:result1["washer"] , dryer:result1["dryer"] ,parking:result1["parking"] , gym:result1["gym"] ,pool:result1["pool"] , pets:result1["pets"], numtasks:result1['numtasks'], tasklist:result1['Tasks']});
 
                         }
 
@@ -57,12 +59,109 @@ router.get('/room', function(req, res, next) {
 
 router.post('/addtaskform', function(req, res, next) {
     console.log(req.body);
-    return res.render('addtask', { title: 'Add Task' });
+
+
+    dbops.getroomdetails(req.body.roomID,function (error1,result1) {
+
+        if (error1 || !result1) {
+            var err = new Error('Sorry, could not get your data at the moment');
+            err.status = 401;
+            return next(err);
+        }  else {
+
+            console.log("\nROOM DETAILS for addtaskform\n")
+            console.log(result1);
+
+            return res.render('addtask', { title: 'Add Task', roomid:req.body.roomID, users:result1["Users"], numusers:result1["numusers"] });
+
+        }
+
+    })
+
 });
 
 router.post('/addtask', function(req, res, next) {
-    console.log(req.body);
-    return res.render('addtask', { title: 'Add Task' });
+
+    // console.log(req.body);
+
+    dbops.addtask(req.body.taskname,req.body.roomid,req.body.startdate,req.body.enddate,req.body.freq,function (error,result,data) {
+
+        if (error || !result) {
+            var err = new Error('Sorry, could not add your task at the moment');
+            err.status = 401;
+            return next(err);
+        }  else {
+
+            console.log("\nTask added in db successfully\n")
+            console.log("task id is : ",data);
+
+            var x = date.parse(req.body.startdate,'YYYY-MM-DD');
+            var y = date.parse(req.body.enddate,'YYYY-MM-DD');
+            var userdatemap = new HashMap();
+
+            var date1 = x;
+            var userindex = 0;
+            while(date1 < y){
+                var curruser = req.body.usersadded[userindex++];
+                userdatemap.set(date.format(date1,'YYYY-MM-DD ddd').toString(),curruser);
+                date1 = date.addDays(date1,req.body.freq);
+                if(!req.body.usersadded[userindex]){
+                    userindex = 0;
+                }
+            }
+
+            userdatemap.forEach(function(value, key) {
+                var temparray = [];
+                temparray['taskid'] = data;
+                temparray['taskname'] = req.body.taskname ;
+                temparray['taskdate'] = key;
+                temparray['userassigned'] = value;
+
+
+                console.log(temparray);
+
+
+                dbops.addTasktoRoom(req.body.roomid,temparray,function(error1,result1) {
+
+                    if (error1 || !result1) {
+                        var err = new Error('Sorry, could not get your data at the moment');
+                        err.status = 401;
+                        return next(err);
+                    }  else {
+
+                        console.log("\nTask map added successfully\n")
+                        console.log(result1);
+
+                        dbops.getroomdetails(req.body.roomid,function (error1,result1) {
+
+                            if (error1 || !result1) {
+                                var err = new Error('Sorry, could not get your data at the moment');
+                                err.status = 401;
+                                return next(err);
+                            }  else {
+
+                                console.log("ROOM DETAILS\n")
+                                console.log(result1);
+
+                                return res.render('userroom', { title: 'Your Room', currRoom: result1['roomID'],username: req.session.username, roomname:result1["roomname"] ,address:result1["address"] ,users:result1["Users"], room_available:result1["Room_Available"] ,info:result1["info"] , numrooms:result1["numrooms"] ,rent:result1["rent"] , ac:result1["airconditioner"] , wifi:result1["internet"] , washer:result1["washer"] , dryer:result1["dryer"] ,parking:result1["parking"] , gym:result1["gym"] ,pool:result1["pool"] , pets:result1["pets"], numtasks:result1['numtasks'],tasklist:result1['Tasks']});
+
+                            }
+
+                        })
+
+                        // return res.render('addtask', { title: 'Add Task', roomid:req.body.roomID, users:result1["Users"], numusers:result1["numusers"] });
+
+                    }
+
+                })
+
+
+            });
+
+        }
+
+    })
+
 });
 
 // GET /contact
@@ -522,7 +621,7 @@ router.post('/newroom', function (req,res,next) {
                 console.log(result);
 
                 console.log("Adding room to users current room");
-                dbops.UpdateUserTable(creator,'currroom',data,function (error1,result1) {
+                dbops.UpdateUserTable(creator,'currRoom',data,function (error1,result1) {
 
                     if (error1 || !result1) {
                         console.log('Error in adding room to users current room: \n',error1);

@@ -7,7 +7,7 @@ block content
             div.form-group
                 label(for='taskname') Task Name:
                 input#taskname.form-control(type='text', placeholder='what is the task about?' name='taskname')
-                input#roomid.form-control(type='hidden', name='roomid', value = roomID)
+                input#roomid.form-control(type='hidden', name='roomid', value = roomid)
             div.form-group
                 label(for='startdate') Start Date:
                 input#startdate.form-control(type='date', placeholder='' name='startdate')
@@ -15,14 +15,26 @@ block content
                 label(for='enddate') End Date:
                 input#enddate.form-control(type='date', placeholder='' name='enddate')
             div.form-group
-                label Frequency:
+                label(for='freq') Frequency:
                 br
-                select#freq
-                    option(value='1') Everyday
-                    option(value='7') Weekly
-                    option(value='14') Bi-Weekly
-                    option(value='15') Fortnightly
-                    option(value='30') Monthly
+                select#freq(name='freq')
+                    option(value=1) Everyday
+                    option(value=7) Weekly
+                    option(value=14) Bi-Weekly
+                    option(value=15) Fortnightly
+                    option(value=30) Monthly
+            div.form-group
+                label(for='freq') Users:
+                    if(numusers == 0)
+                        p.
+                            Looks like no users have been added to the room yet!
+                    else
+                        -var n = 0;
+                        while n < numusers
+                            .checkbox
+                                label(for=users[n])
+                                    input(type="checkbox", name="usersadded", value=users[n])
+                                    h4 #{users[n++]}
             button.btn.btn-primary(type='submit') Submit
 
     //        p

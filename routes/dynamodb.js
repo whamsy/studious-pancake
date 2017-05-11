@@ -18,6 +18,8 @@ module.exports.dbfunc = function () {
 
     var session = require('express-session');
 
+    var date = require('date-and-time');
+
     this.addNewUser= function (username,useremail,usergender,name,callback) {
 
         // var documentClient = new dbclient.DocumentClient();
@@ -251,7 +253,8 @@ module.exports.dbfunc = function () {
                 value2["roomname"]= data.Item.roomname;
                 value2["address"]= data.Item.address;
                 value2["Users"]= data.Item.Users;
-                value2["numtasks"] = data.Item.Users.length;
+                value2["numusers"] = data.Item.Users.length;
+                value2["numtasks"] = data.Item.Tasks.length; //EDIT!
                 value2["Tasks"]= data.Item.Tasks;
                 value2["Room_Available"]= data.Item.Room_Available;
                 value2["User_Interested"]= data.Item.User_Interested;
@@ -271,10 +274,6 @@ module.exports.dbfunc = function () {
 
             }
         });
-
-
-
-
 
     }
 
@@ -310,6 +309,73 @@ module.exports.dbfunc = function () {
 
 
     }
+
+    this.addtask = function(TaskName,RoomID,StartDate,EndDate,Frequency,callback)
+    {
+        var table = "Task";
+
+        var y = randint();
+
+        var params = {
+            TableName:table,
+            Item:{
+                "taskID": y,
+                "TaskName":TaskName,
+                "Room_ID":RoomID,
+                "Start_Date":StartDate, //date.parse(StartDate, 'YYYY-MM-DD')
+                "End_Date":EndDate, //date.parse(EndDate, 'YYYY-MM-DD'),
+                "Frequency":Frequency //Frequency in number of days
+            }
+
+        };
+
+        docClient.put(params, function(err, data) {
+            if (err) {
+                console.log(err);
+                return callback(err);
+            } else {
+                // console.log("Added item:", JSON.stringify(data, null, 2));
+                console.log("Added task successfully:", JSON.stringify(data, null, 2));
+                return(callback(null,data,y));
+            }
+        });
+    }
+
+    this.addTasktoRoom = function(RoomID,TaskArray,callback)
+    {
+
+        var table ='Room';
+
+        var params = {
+            TableName: table,
+            Key: {"roomID": RoomID},
+            UpdateExpression: "SET #attrname = list_append(#attrname, :attrValue)",
+        //     // UpdateExpression: "SET NewTask1.#number = :string",
+            ExpressionAttributeNames: {
+                "#attrname" : "Tasks"
+        //         // "#attrName": "NewTasks"
+            },
+            ExpressionAttributeValues: {
+                ':attrValue': [{taskid:TaskArray['taskid'],taskname: TaskArray['taskname'],taskdate: TaskArray['taskdate'], userassigned: TaskArray['userassigned']}]
+            }
+        }
+
+
+        console.log("Updating the item...");
+        docClient.update(params, function(err, data) {
+            if (err) {
+                // console.error("Unable to update item. Error JSON:", JSON.stringify(err, null, 2));
+                console.log(err);
+                return callback(err);
+            } else {
+                // console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
+                console.log("Added task to room successfully:");
+                return(callback(null,data));
+            }
+        });
+    }
+
+
 
 }
 
