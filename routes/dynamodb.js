@@ -14,7 +14,7 @@ module.exports.dbfunc = function () {
 
     AWS.config.update({
         region: "us-west-2",
-        endpoint: "arn:aws:dynamodb:us-west-2:453367379586"
+        endpoint: "https://dynamodb.us-west-2.amazonaws.com"
     });
 
     var docClient = new AWS.DynamoDB.DocumentClient();
