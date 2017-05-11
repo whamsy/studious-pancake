@@ -14,7 +14,7 @@ block content
         br
         -var n = 0;
             while (n < numtasks && (tasks[n]['taskid'] !== null) && (tasks[n]['taskname'] !== null) && (tasks[n]['taskdate'] !== null))
-                if(today >= tasks[n]['taskdate'])
+                if(today >= tasks[n]['taskdate'] &&(tasks[n]['completed'] == false))
                     .row
                         .row
                             .col-md-4
@@ -22,14 +22,24 @@ block content
                             .col-md-4
                                 h5 #{tasks[n++]['taskdate']}
                             .col-md-4
-                                button.btn.btn-success.btn-sm(type='submit') Mark as completed!
-                else
+                                form(method='POST' action='/marktaskcompleted' class="form-inline")
+                                    div.form-group
+                                        input#taskid.form-control(type='hidden', name='taskid', value = tasks[n-1]['taskid'])
+                                        input#taskdate.form-control(type='hidden', name='taskdate', value = tasks[n-1]['taskdate'])
+                                        input#taskname.form-control(type='hidden', name='taskname', value = tasks[n-1]['taskname'])
+                                    button.btn.btn-success.btn-sm(type='submit') Mark as completed!
+                else if(today < tasks[n]['taskdate'] &&(tasks[n]['completed'] == false))
                     .row
                         .row
                             .col-md-4
                                 h6 #{tasks[n]['taskname']}
                             .col-md-4
                                 h6 #{tasks[n++]['taskdate']}
+                else if(tasks[n++]['completed'] == true)
+                    .row
+
+
+
 
 
 

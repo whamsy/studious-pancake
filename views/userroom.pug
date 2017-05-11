@@ -212,12 +212,26 @@ html
                     br
                     -var n = 0;
                         while (n < numtasks && (tasklist[n]['taskid'] !== null) && (tasklist[n]['userassigned'] !== null) && (tasklist[n]['taskdate'] !== null))
-                            .col-md-4
-                                h6 #{tasklist[n]['taskdate']}
-                            .col-md-4
-                                h6 #{tasklist[n]['userassigned']}
-                            .col-md-4
-                                h6 #{tasklist[n++]['taskname']}
+                            if(today >= tasklist[n]['taskdate'] && (tasklist[n]['completed'] == false))
+                                .row
+                                    .col-md-3
+                                        h6 #{tasklist[n]['taskdate']}
+                                    .col-md-3
+                                        h6 #{tasklist[n]['userassigned']}
+                                    .col-md-3
+                                        h6 #{tasklist[n++]['taskname']}
+                                    .col-md-3
+                                        h6 OVERDUE!!
+                            else if(today < tasklist[n]['taskdate'] && (tasklist[n]['completed'] == false))
+                                .row
+                                    .col-md-3
+                                        h6 #{tasklist[n]['taskdate']}
+                                    .col-md-3
+                                        h6 #{tasklist[n]['userassigned']}
+                                    .col-md-3
+                                        h6 #{tasklist[n++]['taskname']}
+                            else if(tasklist[n++]['completed'] == true)
+                                .row
 
 
             //include activitysidebar
