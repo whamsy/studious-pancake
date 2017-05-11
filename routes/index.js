@@ -9,10 +9,37 @@ var HashMap = require('hashmap');
 
 var userNEW = new user.Auth();
 var dbops = new database.dbfunc();
+const sortBy = require('sort-array')
 
 // GET /contact
 router.get('/contact', function(req, res, next) {
     return res.render('contact', { title: 'Contact' });
+});
+
+router.get('/mytasks', function(req, res, next) {
+
+    dbops.getuserdetails(req.session.username,function (error,result) {
+
+        if (error || !result) {
+            var err = new Error('Sorry, could not get your data at the moment');
+            err.status = 401;
+            return next(err);
+        }  else {
+
+            sortBy(result['Tasks'],'taskdate');
+
+            var today = date.format(new Date(),'YYYY-MM-DD ddd');
+
+
+
+            return res.render('activitysidebar', { title: 'Your Tasks', tasks:result['Tasks'],numtasks:result['numtasks'], today:today });
+
+
+        }
+
+    })
+
+    // return res.render('activitysidebar', { title: 'Your Tasks' });
 });
 
 
@@ -38,7 +65,9 @@ router.get('/room', function(req, res, next) {
                         }  else {
 
                             console.log("ROOM DETAILS\n")
-                            console.log(result1);
+                            // console.log(result1);
+
+                            sortBy(result1['Tasks'],'taskdate');
 
                             return res.render('userroom', { title: 'Your Room', currRoom: result1['roomID'],username: req.session.username, roomname:result1["roomname"] ,address:result1["address"] ,users:result1["Users"], room_available:result1["Room_Available"] ,info:result1["info"] , numrooms:result1["numrooms"] ,rent:result1["rent"] , ac:result1["airconditioner"] , wifi:result1["internet"] , washer:result1["washer"] , dryer:result1["dryer"] ,parking:result1["parking"] , gym:result1["gym"] ,pool:result1["pool"] , pets:result1["pets"], numtasks:result1['numtasks'], tasklist:result1['Tasks']});
 
@@ -70,7 +99,7 @@ router.post('/addtaskform', function(req, res, next) {
         }  else {
 
             console.log("\nROOM DETAILS for addtaskform\n")
-            console.log(result1);
+            // console.log(result1);
 
             return res.render('addtask', { title: 'Add Task', roomid:req.body.roomID, users:result1["Users"], numusers:result1["numusers"] });
 
@@ -86,18 +115,22 @@ router.post('/addtask', function(req, res, next) {
 
     dbops.addtask(req.body.taskname,req.body.roomid,req.body.startdate,req.body.enddate,req.body.freq,function (error,result,data) {
 
+        var idroom = req.body.roomid;
+
         if (error || !result) {
             var err = new Error('Sorry, could not add your task at the moment');
             err.status = 401;
             return next(err);
         }  else {
 
-            console.log("\nTask added in db successfully\n")
+            console.log("\nConfirmed from dynamo Task added successfully")
             console.log("task id is : ",data);
 
             var x = date.parse(req.body.startdate,'YYYY-MM-DD');
             var y = date.parse(req.body.enddate,'YYYY-MM-DD');
             var userdatemap = new HashMap();
+
+            var instance = 1;
 
             var date1 = x;
             var userindex = 0;
@@ -108,7 +141,10 @@ router.post('/addtask', function(req, res, next) {
                 if(!req.body.usersadded[userindex]){
                     userindex = 0;
                 }
+                instance++;
             }
+
+            console.log("Total Instance",instance);
 
             userdatemap.forEach(function(value, key) {
                 var temparray = [];
@@ -116,12 +152,13 @@ router.post('/addtask', function(req, res, next) {
                 temparray['taskname'] = req.body.taskname ;
                 temparray['taskdate'] = key;
                 temparray['userassigned'] = value;
+                temparray['completed'] = false;
 
 
-                console.log(temparray);
+                // console.log(temparray);
 
 
-                dbops.addTasktoRoom(req.body.roomid,temparray,function(error1,result1) {
+                dbops.addTasktoRoom(idroom,temparray,function(error1,result1) {
 
                     if (error1 || !result1) {
                         var err = new Error('Sorry, could not get your data at the moment');
@@ -129,36 +166,72 @@ router.post('/addtask', function(req, res, next) {
                         return next(err);
                     }  else {
 
-                        console.log("\nTask map added successfully\n")
-                        console.log(result1);
+                        console.log("Confirmed that Task details added to room successfully\n")
+                        // console.log(result1);
 
-                        dbops.getroomdetails(req.body.roomid,function (error1,result1) {
+                        console.log('User being considered:');
+                        console.log(value);
 
-                            if (error1 || !result1) {
+                        dbops.addTasktoUser(value,temparray,function(error3,result3) {
+
+                            if (error3 || !result3) {
                                 var err = new Error('Sorry, could not get your data at the moment');
                                 err.status = 401;
                                 return next(err);
                             }  else {
 
-                                console.log("ROOM DETAILS\n")
-                                console.log(result1);
+                                console.log("Confirmed that Task details added to user table successfully")
+                                instance--;
+                                // console.log(result2);
 
-                                return res.render('userroom', { title: 'Your Room', currRoom: result1['roomID'],username: req.session.username, roomname:result1["roomname"] ,address:result1["address"] ,users:result1["Users"], room_available:result1["Room_Available"] ,info:result1["info"] , numrooms:result1["numrooms"] ,rent:result1["rent"] , ac:result1["airconditioner"] , wifi:result1["internet"] , washer:result1["washer"] , dryer:result1["dryer"] ,parking:result1["parking"] , gym:result1["gym"] ,pool:result1["pool"] , pets:result1["pets"], numtasks:result1['numtasks'],tasklist:result1['Tasks']});
 
                             }
 
                         })
-
-                        // return res.render('addtask', { title: 'Add Task', roomid:req.body.roomID, users:result1["Users"], numusers:result1["numusers"] });
 
                     }
 
                 })
 
 
+                // console.log("Instance:",instance);
+
+
+
             });
 
+
+
+
+                dbops.getroomdetails(idroom,function (error2,result2) {
+
+                    if (error2 || !result2) {
+                        var err = new Error('Sorry, could not get your data at the moment');
+                        err.status = 401;
+                        return next(err);
+                    }  else {
+
+                        console.log("ROOM DETAILS\n")
+                        // console.log(result2);
+
+                        sortBy(result2['Tasks'],'taskdate');
+
+                        return res.render('userroom', { title: 'Your Room', currRoom: result2['roomID'],username: req.session.username, roomname:result2["roomname"] ,address:result2["address"] ,users:result2["Users"], room_available:result2["Room_Available"] ,info:result2["info"] , numrooms:result2["numrooms"] ,rent:result2["rent"] , ac:result2["airconditioner"] , wifi:result2["internet"] , washer:result2["washer"] , dryer:result2["dryer"] ,parking:result2["parking"] , gym:result2["gym"] ,pool:result2["pool"] , pets:result2["pets"], numtasks:result2['numtasks'],tasklist:result2['Tasks']});
+
+                    }
+
+                })
+
+
+
+
         }
+
+
+
+
+
+
 
     })
 

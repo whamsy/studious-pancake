@@ -213,6 +213,8 @@ module.exports.dbfunc = function () {
                 value1["username"]=data.Item.username;
                 value1["age"]=data.Item.Age;
                 value1["about"]=data.Item.About;
+                value1["Tasks"]=data.Item.Tasks;
+                value1["numtasks"]=data.Item.Tasks.length;
 
                 return(callback(null,value1));
             }
@@ -335,7 +337,7 @@ module.exports.dbfunc = function () {
                 return callback(err);
             } else {
                 // console.log("Added item:", JSON.stringify(data, null, 2));
-                console.log("Added task successfully:", JSON.stringify(data, null, 2));
+                console.log("Dynamo says Added task successfully:");
                 return(callback(null,data,y));
             }
         });
@@ -356,7 +358,41 @@ module.exports.dbfunc = function () {
         //         // "#attrName": "NewTasks"
             },
             ExpressionAttributeValues: {
-                ':attrValue': [{taskid:TaskArray['taskid'],taskname: TaskArray['taskname'],taskdate: TaskArray['taskdate'], userassigned: TaskArray['userassigned']}]
+                ':attrValue': [{taskid:TaskArray['taskid'],taskname: TaskArray['taskname'],taskdate: TaskArray['taskdate'], userassigned: TaskArray['userassigned'],completed:false}]
+            }
+        }
+
+
+        // console.log("Updating the item...");
+        docClient.update(params, function(err, data) {
+            if (err) {
+                // console.error("Unable to update item. Error JSON:", JSON.stringify(err, null, 2));
+                console.log(err);
+                return callback(err);
+            } else {
+                // console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
+                console.log("Dynamo says added task to room successfully:");
+                return(callback(null,data));
+            }
+        });
+    }
+
+    this.addTasktoUser = function(username,TaskArray,callback)
+    {
+
+        var table ='User';
+
+        var params = {
+            TableName: table,
+            Key: {"username": username},
+            UpdateExpression: "SET #attrname = list_append(#attrname, :attrValue)",
+            //     // UpdateExpression: "SET NewTask1.#number = :string",
+            ExpressionAttributeNames: {
+                "#attrname" : "Tasks"
+                //         // "#attrName": "NewTasks"
+            },
+            ExpressionAttributeValues: {
+                ':attrValue': [{taskid:TaskArray['taskid'],taskname: TaskArray['taskname'],taskdate: TaskArray['taskdate'],completed:false}]
             }
         }
 
@@ -369,7 +405,7 @@ module.exports.dbfunc = function () {
                 return callback(err);
             } else {
                 // console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
-                console.log("Added task to room successfully:");
+                console.log("Dynamo says added task to User table successfully:");
                 return(callback(null,data));
             }
         });
