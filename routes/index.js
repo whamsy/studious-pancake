@@ -500,9 +500,9 @@ router.get('/room8search', function(req, res, next) {
 });
 
 // GET /contact
-router.get('/room8search', function(req, res, next) {
-    return res.render('room8search', { title: 'Roomie Search' });
-});
+// router.get('/room8search', function(req, res, next) {
+//     return res.render('room8search', { title: 'Roomie Search' });
+// });
 
 router.get('/preferences', function(req, res, next) {
     return res.render('preferences', { title: 'Preferences' });
@@ -815,7 +815,7 @@ router.post('/leaveroom', function(req, res, next) {
 
                 console.log('success');
 
-                dbops.UpdateUserTable(req.session.username, "Tasks", null, function (error2, result2) {
+                dbops.UpdateUserTable(req.session.username, "Tasks", [], function (error2, result2) {
 
                     if (error2|| !result2) {
                         var err = new Error('Sorry, could not get your data at the moment');

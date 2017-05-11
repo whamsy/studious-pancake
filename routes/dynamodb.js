@@ -4,17 +4,17 @@
 
 module.exports.dbfunc = function () {
 
-
+    const randint = require('uuid/v4');
     var AWS = require('aws-sdk');
     var fs = require('fs');
 
     AWS.config.update({ accessKeyId:'AKIAJKS7OFMOF326UI5A', secretAccessKey: '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' });
 
-    const randint = require('uuid/v4');
+
 
     AWS.config.update({
         region: "us-west-2",
-        endpoint: "http://localhost:8000"
+        endpoint: "arn:aws:dynamodb:us-west-2:453367379586"
     });
 
     var docClient = new AWS.DynamoDB.DocumentClient();
@@ -360,7 +360,12 @@ module.exports.dbfunc = function () {
                 value1["age"]=data.Item.Age;
                 value1["about"]=data.Item.About;
                 value1["Tasks"]=data.Item.Tasks;
-                value1["numtasks"]=data.Item.Tasks.length;
+                if(data.Item.Tasks != null){
+                    value1["numtasks"]=data.Item.Tasks.length;
+                } else {
+                    value1["numtasks"]=0;
+                }
+
                 value1["numreviews"]=data.Item.Reviews.length;
                 value1["Reviews"]=data.Item.Reviews;
 

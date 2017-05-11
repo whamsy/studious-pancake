@@ -12,7 +12,7 @@ var app = express();
 
 
 var AWS = require('aws-sdk');
-var config = {"endpoint":"http://localhost:8000"};
+var config = {"endpoint":"arn:aws:dynamodb:us-west-2:453367379586:table"};
 var client = new AWS.DynamoDB(config);
 
 app.use(cookieParser());
