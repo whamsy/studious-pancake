@@ -1,0 +1,98 @@
+extends layout
+
+
+block content
+    .row
+        .col-md-4
+            .row
+                .col-md-12
+                    center
+                        img.img-circle.img-responsive(src= pic width="70" height="70")
+                        br
+                        br
+            .review-block-name
+                center
+                    | Rating : #{rating}
+
+
+        .col-md-8
+            .row
+                .col-md-8
+                    h4 Welcome to #{name}'s profile page!
+                    //h1 YOU BOTH ARE ROOMIES : #{roomies}
+                .col-md-4
+                    p
+                        strong Age:
+                        |  #{age}
+            p
+                strong About:
+                |  #{about}
+            p
+                strong Preferences:
+                br
+                |  Cleanliness : #{cleanliness}
+                br
+                |  Smoking : #{smoking}
+                br
+                |  Drinking : #{drinking}
+                br
+                |  Party : #{party}
+
+    .row
+        br
+        br
+        if(numreviews == 0)
+            h4 No Reviews for #{name} Yet
+            if(roomies)
+                form(action='/addreview', method='GET')
+                    input#userreviewed(type='hidden' name='userreviewed' value = userid)
+                    button.btn.btn-primary(type='submit') Add a Review!
+                //form(action='/addreview', method='POST')
+                //    .row
+                //        .col-md-2
+                //            label(for='reviewtext') Review
+                //        .col-md-10
+                //            input#reviewtxt(name='reviewtext', type='text')
+                //    .row
+                //        .col-md-2
+                //            label(for='reviewtext') Rating(?/5)
+                //        .col-md-10
+                //            input#rating(name='rating', type='number', placeholder="please enter between 0 to 5")
+                //    br
+                //    button#uploaddp.btn.btn-warning.btn-sm(type='submit', name='uploaddp') Submit
+                //div.form-group
+                //    label(for='pw2') Confirm Password:
+                //    input#pw2.form-control(type='password' name='confirmPassword')
+                //button.btn.btn-primary(type='submit') Sign up
+        else
+            h4 Reviews for #{name}:
+            br
+            -var n = 0
+            while n < numreviews
+                .row
+                    .col-md-3
+                        h4 Review by : #{reviews[n].reviewer}
+                    .col-md-3
+                        h5 #{reviews[n].reviewtext}
+                    .col-md-3
+                        h4 Sentiment : #{reviews[n].sentiment}
+                    .col-md-3
+                        h4 Rating: #{reviews[n++].rating}
+            if(roomies)
+                form(action='/addreview', method='GET')
+                    input#userreviewed(type='hidden' name='userreviewed' value = userid)
+                    button.btn.btn-primary(type='submit') Add a Review!
+        //.col-md-4
+        //    img.img-rounded(src='http://cdn2.business2community.com/wp-content/uploads/2014/04/profile-picture-300x300.jpg' width="50" height="50")
+        //    .review-block-name
+        //        a(href='#') nktailor
+        //    .review-block-date
+        //        | January 29, 2016
+        //        br
+        //        | 1 day ago
+        //.col-md-8
+        //    .review-block-title this was nice in buy
+        //    .review-block-description
+        //        | this was nice in buy. this was nice in buy. this was nice in buy. this was nice in buy this was nice in buy this was nice in buy this was nice in buy this was nice in buy
+        //    .review-block-rate
+        //        | Sentiment
