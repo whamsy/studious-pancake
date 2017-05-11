@@ -2,4 +2,11 @@ extends layout
 
 block content
     .col-md-8
-        h4.m-b-2 This is the search page for roommates!
+        h4 There are #{num} users without a room:
+            br
+            br
+            -var n = 0;
+            while n < num
+                .row
+                    .col-md-2.col-md-offset-3
+                    a(href='/userprofile?user=' + list[n]) #{list[n++]}

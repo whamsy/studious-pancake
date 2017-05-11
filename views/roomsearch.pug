@@ -2,4 +2,11 @@ extends layout
 
 block content
     .col-md-8
-        h4.m-b-2 This is the search page for rooms
+        h4 There are #{num} places that currently have a room available:
+        br
+        br
+        -var n = 0;
+            while n < num
+                .row
+                    .col-md-2.col-md-offset-3
+                    a(href='/otherroom?roomid=' + list[n]) #{list[n++]}
