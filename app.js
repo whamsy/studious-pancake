@@ -4,12 +4,8 @@ var session = require('express-session');
 // var RedisStore = require('connect-redis')(session);
 var cookieParser = require('cookie-parser');
 
-
-
-if (typeof localStorage === "undefined" || localStorage === null) {
-    var LocalStorage = require('node-localstorage').LocalStorage;
-    localStorage = new LocalStorage('./scratch');
-}
+var multer  = require('multer');
+var upload = multer({ dest: 'uploads/' })
 
 var app = express();
 
