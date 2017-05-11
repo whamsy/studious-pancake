@@ -28,6 +28,7 @@ build/Release
 
 # Dependency directories
 node_modules
+node_modules/
 jspm_packages
 
 # Optional npm cache directory
@@ -66,3 +67,10 @@ Temporary Items
 
 # vim temp files
 *.swp
+
+
+.elasticbeanstalk/
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
