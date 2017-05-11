@@ -74,8 +74,9 @@ app.use(function(err, req, res, next) {
 });
 
 // listen on port 3000
-app.listen(3000, function () {
-    console.log('Express app listening on port 3000');
+var port = process.env.NODE_ENV == 'development' ? 3000 : 80;
+app.listen(port, function () {
+    console.log('Express app listening on port'+port);
     // console.log(client);
     // console.log(CognitoUserPool);
     // console.log(session);

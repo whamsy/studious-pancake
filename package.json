@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "watch": "nodemon server.js -e js,pug",
-    "start": "node ./app"
+    "main": "app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "dependencies": {
     "amazon-cognito-identity-js": "^1.16.0",
