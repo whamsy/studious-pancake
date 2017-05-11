@@ -42,6 +42,98 @@ router.get('/mytasks', function(req, res, next) {
     // return res.render('activitysidebar', { title: 'Your Tasks' });
 });
 
+router.post('/marktaskcompleted', function(req, res, next) {
+
+    console.log(req.body);
+
+    dbops.getuserdetails(req.session.username,function (error,result) {
+
+        if (error || !result) {
+            var err = new Error('Sorry, could not get your data at the moment');
+            err.status = 401;
+            return next(err);
+        }  else {
+
+            var tasklist = result['Tasks'];
+            var userroom = result['currRoom'];
+
+            var i = 0;
+
+            while(i<tasklist.length){
+
+                if(tasklist[i]['taskid']==req.body.taskid && tasklist[i]['taskname']==req.body.taskname && tasklist[i]['taskdate']==req.body.taskdate){
+
+                    console.log("Current value of i = ",i);
+
+                    dbops.UpdateUserTable(req.session.username,"Tasks["+i+"].completed",true,function (error1,result1) {
+
+                        if (error1 || !result1) {
+                            var err = new Error('Sorry, could not get your data at the moment');
+                            err.status = 401;
+                            return next(err);
+                        }  else {
+
+                            console.log("Task status changed to true in User Table");
+
+                            dbops.getroomdetails(userroom,function (error2,result2) {
+
+                                if (error2 || !result2) {
+                                    var err = new Error('Sorry, could not get your data at the moment');
+                                    err.status = 401;
+                                    return next(err);
+                                } else {
+
+                                    var roomtasklist = result2['Tasks'];
+                                    var j = 0;
+
+                                    while(j<roomtasklist.length){
+                                        if(roomtasklist[j]['taskid']==req.body.taskid && roomtasklist[j]['taskname']==req.body.taskname && roomtasklist[j]['taskdate']==req.body.taskdate && roomtasklist[j]['userassigned']==req.session.username){
+
+                                            dbops.UpdateRoomTable(userroom,"Tasks["+j+"].completed",true,function (error3,result3) {
+
+                                                if (error3 || !result3) {
+                                                    var err = new Error('Sorry, could not get your data at the moment');
+                                                    err.status = 401;
+                                                    return next(err);
+                                                } else {
+
+                                                    console.log("Task status changed to true in Room Table");
+
+                                                    return res.redirect('/profile')
+                                                }
+
+
+                                            })
+                                            j++;
+                                        } else {
+                                            j++;
+                                        }
+                                    }
+
+                                }
+                            })
+
+                        }
+
+                    })
+
+                    i++;
+
+                } else{
+
+                    i++;
+
+                }
+
+            }
+
+
+        }
+
+    })
+
+});
+
 
 // GET /contact
 router.get('/room', function(req, res, next) {
@@ -69,7 +161,9 @@ router.get('/room', function(req, res, next) {
 
                             sortBy(result1['Tasks'],'taskdate');
 
-                            return res.render('userroom', { title: 'Your Room', currRoom: result1['roomID'],username: req.session.username, roomname:result1["roomname"] ,address:result1["address"] ,users:result1["Users"], room_available:result1["Room_Available"] ,info:result1["info"] , numrooms:result1["numrooms"] ,rent:result1["rent"] , ac:result1["airconditioner"] , wifi:result1["internet"] , washer:result1["washer"] , dryer:result1["dryer"] ,parking:result1["parking"] , gym:result1["gym"] ,pool:result1["pool"] , pets:result1["pets"], numtasks:result1['numtasks'], tasklist:result1['Tasks']});
+                            var today = date.format(new Date(),'YYYY-MM-DD ddd');
+
+                            return res.render('userroom', { title: 'Your Room', currRoom: result1['roomID'],username: req.session.username, roomname:result1["roomname"] ,address:result1["address"] ,users:result1["Users"], room_available:result1["Room_Available"] ,info:result1["info"] , numrooms:result1["numrooms"] ,rent:result1["rent"] , ac:result1["airconditioner"] , wifi:result1["internet"] , washer:result1["washer"] , dryer:result1["dryer"] ,parking:result1["parking"] , gym:result1["gym"] ,pool:result1["pool"] , pets:result1["pets"], numtasks:result1['numtasks'], tasklist:result1['Tasks'],today:today});
 
                         }
 
@@ -216,7 +310,9 @@ router.post('/addtask', function(req, res, next) {
 
                         sortBy(result2['Tasks'],'taskdate');
 
-                        return res.render('userroom', { title: 'Your Room', currRoom: result2['roomID'],username: req.session.username, roomname:result2["roomname"] ,address:result2["address"] ,users:result2["Users"], room_available:result2["Room_Available"] ,info:result2["info"] , numrooms:result2["numrooms"] ,rent:result2["rent"] , ac:result2["airconditioner"] , wifi:result2["internet"] , washer:result2["washer"] , dryer:result2["dryer"] ,parking:result2["parking"] , gym:result2["gym"] ,pool:result2["pool"] , pets:result2["pets"], numtasks:result2['numtasks'],tasklist:result2['Tasks']});
+                        var today = date.format(new Date(),'YYYY-MM-DD ddd');
+
+                        return res.render('userroom', { title: 'Your Room', currRoom: result2['roomID'],username: req.session.username, roomname:result2["roomname"] ,address:result2["address"] ,users:result2["Users"], room_available:result2["Room_Available"] ,info:result2["info"] , numrooms:result2["numrooms"] ,rent:result2["rent"] , ac:result2["airconditioner"] , wifi:result2["internet"] , washer:result2["washer"] , dryer:result2["dryer"] ,parking:result2["parking"] , gym:result2["gym"] ,pool:result2["pool"] , pets:result2["pets"], numtasks:result2['numtasks'],tasklist:result2['Tasks'],today:today});
 
                     }
 
