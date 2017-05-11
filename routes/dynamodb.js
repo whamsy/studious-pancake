@@ -6,6 +6,9 @@ module.exports.dbfunc = function () {
 
 
     var AWS = require('aws-sdk');
+    var fs = require('fs');
+
+    AWS.config.update({ accessKeyId:'AKIAJKS7OFMOF326UI5A', secretAccessKey: '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' });
 
     const randint = require('uuid/v4');
 
@@ -19,6 +22,35 @@ module.exports.dbfunc = function () {
     var session = require('express-session');
 
     var date = require('date-and-time');
+
+
+    this.uploadtos3 = function () {
+
+
+        var s3 = new AWS.S3();
+
+        var s3Bucket = new AWS.S3( { params: {Bucket: 'room8karma-images'} } )
+
+        var data = {Key: imageName, Body: imageFile};
+
+        s3Bucket.putObject(data, function(err, data){
+            if (err)
+            { console.log('Error uploading data: ', data);
+            } else {
+                console.log('succesfully uploaded the image!');
+
+                var urlParams = {Bucket: 'myBucket', Key: 'imageName'};
+                s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
+                    console.log('the url of the image is', url);
+                })
+            }
+        });
+
+
+
+
+
+    }
 
     this.addNewUser= function (username,useremail,usergender,name,callback) {
 
@@ -40,6 +72,7 @@ module.exports.dbfunc = function () {
                 "Rating":0,
                 "User_available":true,
                 "Tasks":[],
+                "Reviews":[],
                 "Room_Interested":false
             }
         };
@@ -136,6 +169,115 @@ module.exports.dbfunc = function () {
 
     }
 
+    this.searchrooms= function (callback) {
+
+
+        var params = {
+            TableName: "Room",
+            ProjectionExpression: "roomID",
+            FilterExpression: "#yr = :v1",
+            ExpressionAttributeNames: {
+                "#yr": "Room_Available",
+            },
+            ExpressionAttributeValues: {
+                ":v1" : true
+            }
+        };
+
+        docClient.scan(params, function(err, data) {
+            if (err) {
+                console.log(err)
+            } // an error occurred
+            else {
+                var numrooms = data.Items.length;
+
+                var result = [];
+
+                var i = 0;
+
+                while(i<numrooms){
+                    result.push(data.Items[i++].roomID)
+                }
+
+                callback(null,result);
+            }
+        });
+
+
+    }
+
+    this.searchroom8s= function (callback) {
+
+
+        var params = {
+            TableName: "User",
+            ProjectionExpression: "username",
+            FilterExpression: "#yr = :v1",
+            ExpressionAttributeNames: {
+                "#yr": "currRoom",
+            },
+            ExpressionAttributeValues: {
+                ":v1" : null
+            }
+        };
+
+        docClient.scan(params, function(err, data) {
+            if (err) {
+                console.log(err)
+            } // an error occurred
+            else {
+                var numusers = data.Items.length;
+
+                var result = [];
+
+                var i = 0;
+
+                while(i<numusers){
+                    result.push(data.Items[i++].username)
+                }
+
+                callback(null,result);
+            }
+        });
+
+
+    }
+
+
+
+    this.RemoveUserfromRoomTable= function (roomID, position,callback) {
+
+
+        var table ='Room';
+
+        var params = {
+            TableName: "Room",
+            Key: {"RoomID": roomID },
+
+            ExpressionAttributeNames:{
+                "#list":"Users"
+            },
+
+            UpdateExpression: "REMOVE #list[" +position+ "]"
+        }
+
+        console.log("Removing the User...");
+
+        docClient.update(params, function(err, data) {
+            if (err) {
+                // console.error("Unable to update item. Error JSON:", JSON.stringify(err, null, 2));
+                return callback(err);
+            } else {
+                // console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
+                return callback(null,data);
+            }
+        });
+
+
+    }
+
+
+
 
     this.addNewRoom= function (username,name,availability,address,numrooms,ac,wifi,washer,dryer,parking,gym,pool,shared,pets,rent,info,callback) {
 
@@ -219,6 +361,8 @@ module.exports.dbfunc = function () {
                 value1["about"]=data.Item.About;
                 value1["Tasks"]=data.Item.Tasks;
                 value1["numtasks"]=data.Item.Tasks.length;
+                value1["numreviews"]=data.Item.Reviews.length;
+                value1["Reviews"]=data.Item.Reviews;
 
                 return(callback(null,value1));
             }
@@ -397,6 +541,40 @@ module.exports.dbfunc = function () {
             },
             ExpressionAttributeValues: {
                 ':attrValue': [{taskid:TaskArray['taskid'],taskname: TaskArray['taskname'],taskdate: TaskArray['taskdate'],completed:false}]
+            }
+        }
+
+
+        console.log("Updating the item...");
+        docClient.update(params, function(err, data) {
+            if (err) {
+                // console.error("Unable to update item. Error JSON:", JSON.stringify(err, null, 2));
+                console.log(err);
+                return callback(err);
+            } else {
+                // console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
+                console.log("Dynamo says added task to User table successfully:");
+                return(callback(null,data));
+            }
+        });
+    }
+
+    this.addReviewtoUser = function(username,reviewArray,callback)
+    {
+
+        var table ='User';
+
+        var params = {
+            TableName: table,
+            Key: {"username": username},
+            UpdateExpression: "SET #attrname = list_append(#attrname, :attrValue)",
+            //     // UpdateExpression: "SET NewTask1.#number = :string",
+            ExpressionAttributeNames: {
+                "#attrname" : "Reviews"
+                //         // "#attrName": "NewTasks"
+            },
+            ExpressionAttributeValues: {
+                ':attrValue': [{reviewtext:reviewArray['review'],reviewer: reviewArray['reviewer'],sentiment: reviewArray['sentiment'],rating:reviewArray['rating']}]
             }
         }
 
